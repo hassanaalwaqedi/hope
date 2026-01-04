@@ -333,7 +333,10 @@ class ResourcesScreen extends StatelessWidget {
             Text(resource.description),
             if (resource.phone.isNotEmpty) ...[
               const SizedBox(height: 4),
-              Row(
+              Wrap(
+                spacing: 4,
+                runSpacing: 4,
+                crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
                   Text(
                     resource.phone,
@@ -342,8 +345,7 @@ class ResourcesScreen extends StatelessWidget {
                       color: AppTheme.panicAccent,
                     ),
                   ),
-                  if (resource.is24h) ...[
-                    const SizedBox(width: 8),
+                  if (resource.is24h) 
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                       decoration: BoxDecoration(
@@ -359,9 +361,7 @@ class ResourcesScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ],
-                  if (resource.isFree) ...[
-                    const SizedBox(width: 4),
+                  if (resource.isFree) 
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                       decoration: BoxDecoration(
@@ -377,7 +377,6 @@ class ResourcesScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ],
                 ],
               ),
             ],
