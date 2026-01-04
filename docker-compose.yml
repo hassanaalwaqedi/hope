@@ -1,0 +1,61 @@
+# HOPE Backend - Development Docker Configuration
+# This file provides local development environment setup
+
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: hope-postgres
+    environment:
+      POSTGRES_USER: hope_user
+      POSTGRES_PASSWORD: hope_dev_password
+      POSTGRES_DB: hope_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hope_user -d hope_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # PGAdmin for database management (optional)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: hope-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@hope.local
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    profiles:
+      - tools
+
+  # Redis for caching/rate limiting (future use)
+  redis:
+    image: redis:7-alpine
+    container_name: hope-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    profiles:
+      - full
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  default:
+    name: hope-network
