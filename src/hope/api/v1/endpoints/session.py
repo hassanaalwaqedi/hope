@@ -3,10 +3,14 @@ Session Endpoints
 
 Handles therapy session lifecycle and messaging.
 Main interaction point for user conversations.
+
+ARCHITECTURE: All sessions are persisted to PostgreSQL.
+No in-memory storage. Crash-safe and restart-safe.
 """
 
+from datetime import datetime, timezone
 from typing import Optional
-from uuid import UUID, uuid4
+from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
@@ -14,7 +18,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from hope.config.logging_config import get_logger
 from hope.infrastructure.database import get_async_session
-from hope.domain.models.session import Session, SessionState
+from hope.infrastructure.database.repositories.session_repository import SessionRepository
+from hope.api.auth.dependencies import get_current_user_optional, get_token_data_optional
+from hope.api.auth.service import TokenData
 
 logger = get_logger(__name__)
 router = APIRouter()
@@ -25,7 +31,9 @@ router = APIRouter()
 class CreateSessionRequest(BaseModel):
     """Request to create a new session."""
     
-    user_id: UUID = Field(..., description="User ID to create session for")
+    # user_id is now optional - derived from auth token or anonymous
+    language: str = Field(default="en", description="Preferred language (en, fr, ar, de, es)")
+    country_code: str = Field(default="US", description="User's country for crisis resources")
 
 
 class CreateSessionResponse(BaseModel):
@@ -39,7 +47,6 @@ class CreateSessionResponse(BaseModel):
 class SendMessageRequest(BaseModel):
     """Request to send a message in a session."""
     
-    user_id: UUID = Field(..., description="User ID")
     session_id: UUID = Field(..., description="Session ID")
     message: str = Field(..., min_length=1, max_length=4000, description="User message")
 
@@ -75,21 +82,7 @@ class SessionStatusResponse(BaseModel):
     created_at: str
 
 
-# In-memory session storage (for demo - production uses database)
-# TODO: Replace with database persistence
-_sessions: dict[UUID, Session] = {}
-
-
-def get_session(session_id: UUID) -> Session:
-    """Get session by ID or raise 404."""
-    session = _sessions.get(session_id)
-    if not session:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Session {session_id} not found",
-        )
-    return session
-
+# Endpoints
 
 @router.post(
     "/create",
@@ -99,30 +92,60 @@ def get_session(session_id: UUID) -> Session:
 )
 async def create_session(
     request: CreateSessionRequest,
+    db: AsyncSession = Depends(get_async_session),
+    token_data: Optional[TokenData] = Depends(get_token_data_optional),
 ) -> CreateSessionResponse:
     """
-    Create a new therapy session for a user.
+    Create a new therapy session.
     
     A session maintains conversation context and tracks
     panic events throughout the interaction.
+    
+    Supports both authenticated users and anonymous panic sessions.
     """
-    session = Session(
-        user_id=request.user_id,
-        state=SessionState.CREATED,
+    repo = SessionRepository(db)
+    
+    # Get user_id from token if authenticated, generate for anonymous
+    if token_data and token_data.user_id:
+        user_id = token_data.user_id
+    else:
+        # Anonymous session - use session_id from panic token or generate new
+        from uuid import uuid4
+        user_id = token_data.session_id if token_data else uuid4()
+    
+    # Create persisted session
+    session = await repo.create(
+        user_id=user_id,
+        state="created",
+        metadata={
+            "language": request.language,
+            "country_code": request.country_code,
+            "is_anonymous": token_data.is_anonymous if token_data else True,
+        },
     )
     
-    _sessions[session.id] = session
+    await db.commit()
+    
+    # Localized welcome message
+    messages = {
+        "en": "Session created successfully. I'm here with you.",
+        "fr": "Session créée. Je suis là avec toi.",
+        "ar": "تم إنشاء الجلسة. أنا هنا معك.",
+        "de": "Sitzung erstellt. Ich bin bei dir.",
+        "es": "Sesión creada. Estoy aquí contigo.",
+    }
     
     logger.info(
         "Session created",
         session_id=str(session.id),
-        user_id=str(request.user_id),
+        user_id=str(user_id),
+        is_anonymous=token_data.is_anonymous if token_data else True,
     )
     
     return CreateSessionResponse(
         session_id=session.id,
-        state=session.state.value,
-        message="Session created successfully. Send a message to begin.",
+        state=session.state,
+        message=messages.get(request.language, messages["en"]),
     )
 
 
@@ -133,6 +156,8 @@ async def create_session(
 )
 async def send_message(
     request: SendMessageRequest,
+    db: AsyncSession = Depends(get_async_session),
+    token_data: Optional[TokenData] = Depends(get_token_data_optional),
 ) -> SendMessageResponse:
     """
     Send a message in an active session.
@@ -142,37 +167,91 @@ async def send_message(
     
     Returns HOPE's validated response with severity classification.
     """
-    session = get_session(request.session_id)
+    repo = SessionRepository(db)
     
-    # Verify session belongs to user
-    if session.user_id != request.user_id:
+    # Get session
+    session = await repo.get_by_id(request.session_id)
+    if not session:
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Session does not belong to this user",
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Session {request.session_id} not found",
         )
     
+    # Verify session ownership (if authenticated)
+    if token_data and token_data.user_id:
+        if session.user_id != token_data.user_id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Session does not belong to this user",
+            )
+    
     # Check session state
-    if session.state in (SessionState.COMPLETED, SessionState.ABANDONED):
+    if session.state in ("completed", "abandoned"):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Session is {session.state.value} and cannot receive messages",
+            detail=f"Session is {session.state} and cannot receive messages",
         )
     
     # Resume paused sessions
-    if session.state == SessionState.PAUSED:
-        session.resume()
+    if session.state == "paused":
+        await repo.update_state(request.session_id, "active")
+    
+    # Store user message
+    await repo.add_message(
+        session_id=request.session_id,
+        role="user",
+        content=request.message,
+    )
     
     try:
         # Import inside function to avoid circular import
         from hope.main import get_orchestrator
+        from hope.domain.models.session import Session, SessionState
+        
         orchestrator = get_orchestrator()
+        
+        # Create domain session from database model
+        domain_session = Session(
+            id=session.id,
+            user_id=session.user_id,
+            state=SessionState(session.state),
+        )
+        
+        # Load messages into domain session
+        for msg in session.messages or []:
+            domain_session.add_message(
+                role=msg.get("role", "user"),
+                content=msg.get("content", ""),
+                metadata=msg.get("metadata", {}),
+            )
         
         # Process through full pipeline
         result = await orchestrator.process(
             user_message=request.message,
-            user_id=request.user_id,
-            session=session,
+            user_id=session.user_id,
+            session=domain_session,
         )
+        
+        # Store assistant response
+        await repo.add_message(
+            session_id=request.session_id,
+            role="assistant",
+            content=result.response_text,
+            metadata={
+                "severity": result.detection.severity.name,
+                "urgency": result.detection.urgency.value,
+                "escalated": result.detection.requires_escalation,
+            },
+        )
+        
+        # Handle escalation
+        if result.detection.requires_escalation:
+            await repo.set_escalation(
+                session_id=request.session_id,
+                reason=f"Severity: {result.detection.severity.name}",
+            )
+        
+        await db.commit()
         
         logger.info(
             "Message processed",
@@ -207,13 +286,21 @@ async def send_message(
 )
 async def get_session_status(
     session_id: UUID,
+    db: AsyncSession = Depends(get_async_session),
 ) -> SessionStatusResponse:
     """Get the current status of a session."""
-    session = get_session(session_id)
+    repo = SessionRepository(db)
+    session = await repo.get_by_id(session_id)
+    
+    if not session:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Session {session_id} not found",
+        )
     
     return SessionStatusResponse(
         session_id=session.id,
-        state=session.state.value,
+        state=session.state,
         message_count=session.message_count,
         duration_seconds=session.duration_seconds,
         created_at=session.created_at.isoformat(),
@@ -228,21 +315,33 @@ async def get_session_status(
 async def complete_session(
     session_id: UUID,
     summary: Optional[str] = None,
+    db: AsyncSession = Depends(get_async_session),
 ) -> SessionStatusResponse:
     """
     Mark a session as completed.
     
     Optionally provide a summary for the session.
     """
-    session = get_session(session_id)
+    repo = SessionRepository(db)
+    session = await repo.get_by_id(session_id)
     
-    if session.state in (SessionState.COMPLETED, SessionState.ABANDONED):
+    if not session:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Session is already {session.state.value}",
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Session {session_id} not found",
         )
     
-    session.complete(summary=summary)
+    if session.state in ("completed", "abandoned"):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Session is already {session.state}",
+        )
+    
+    await repo.complete_session(session_id, summary)
+    await db.commit()
+    
+    # Refresh session data
+    session = await repo.get_by_id(session_id)
     
     logger.info(
         "Session completed",
@@ -253,8 +352,40 @@ async def complete_session(
     
     return SessionStatusResponse(
         session_id=session.id,
-        state=session.state.value,
+        state=session.state,
         message_count=session.message_count,
         duration_seconds=session.duration_seconds,
         created_at=session.created_at.isoformat(),
     )
+
+
+@router.get(
+    "/{session_id}/messages",
+    summary="Get session messages",
+)
+async def get_session_messages(
+    session_id: UUID,
+    limit: int = 50,
+    db: AsyncSession = Depends(get_async_session),
+) -> dict:
+    """
+    Get messages from a session.
+    
+    Returns conversation history for display.
+    """
+    repo = SessionRepository(db)
+    session = await repo.get_by_id(session_id)
+    
+    if not session:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Session {session_id} not found",
+        )
+    
+    messages = await repo.get_messages(session_id, limit=limit)
+    
+    return {
+        "session_id": str(session_id),
+        "message_count": len(messages),
+        "messages": messages,
+    }

@@ -1,0 +1,217 @@
+{
+  "@@locale": "en",
+  "@@last_modified": "2026-01-05T20:36:00+03:00",
+  
+  "appTitle": "HOPE",
+  "@appTitle": {
+    "description": "Application title"
+  },
+  
+  "navHome": "Home",
+  "@navHome": {
+    "description": "Home navigation label"
+  },
+  "navChat": "Chat",
+  "@navChat": {
+    "description": "Chat navigation label"
+  },
+  "navHistory": "History",
+  "@navHistory": {
+    "description": "History navigation label"
+  },
+  "navResources": "Resources",
+  "@navResources": {
+    "description": "Resources navigation label"
+  },
+  "navSettings": "Settings",
+  "@navSettings": {
+    "description": "Settings navigation label"
+  },
+  
+  "panicButtonText": "I need help now",
+  "@panicButtonText": {
+    "description": "Main panic button text"
+  },
+  "panicButtonSubtext": "Tap if you're having a panic attack",
+  "@panicButtonSubtext": {
+    "description": "Instructions below panic button"
+  },
+  
+  "breathingTitle": "Breathing Exercise",
+  "@breathingTitle": {
+    "description": "Title for breathing exercise screen"
+  },
+  "breatheIn": "Breathe in",
+  "@breatheIn": {
+    "description": "Breathing instruction - inhale"
+  },
+  "holdBreath": "Hold",
+  "@holdBreath": {
+    "description": "Breathing instruction - hold"
+  },
+  "breatheOut": "Breathe out",
+  "@breatheOut": {
+    "description": "Breathing instruction - exhale"
+  },
+  
+  "groundingTitle": "Grounding Exercise",
+  "@groundingTitle": {
+    "description": "Title for grounding exercise"
+  },
+  "groundingInstructions": "Look around and find:",
+  "@groundingInstructions": {
+    "description": "5-4-3-2-1 grounding intro"
+  },
+  "groundingSee": "{count} things you can see",
+  "@groundingSee": {
+    "description": "See instruction",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "groundingTouch": "{count} things you can touch",
+  "@groundingTouch": {
+    "description": "Touch instruction",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "groundingHear": "{count} things you can hear",
+  "@groundingHear": {
+    "description": "Hear instruction",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "groundingSmell": "{count} things you can smell",
+  "@groundingSmell": {
+    "description": "Smell instruction",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "groundingTaste": "{count} thing you can taste",
+  "@groundingTaste": {
+    "description": "Taste instruction",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  
+  "chatWelcome": "I'm here with you. How are you feeling right now?",
+  "@chatWelcome": {
+    "description": "Initial chat welcome message"
+  },
+  "chatInputHint": "Type how you're feeling...",
+  "@chatInputHint": {
+    "description": "Chat input placeholder"
+  },
+  "chatSendButton": "Send",
+  "@chatSendButton": {
+    "description": "Send message button"
+  },
+  
+  "crisisTitle": "Crisis Support",
+  "@crisisTitle": {
+    "description": "Crisis resources screen title"
+  },
+  "crisisEmergency": "Emergency: {number}",
+  "@crisisEmergency": {
+    "description": "Emergency number display",
+    "placeholders": {
+      "number": {"type": "String"}
+    }
+  },
+  "crisisHotline": "Crisis Hotline",
+  "@crisisHotline": {
+    "description": "Crisis hotline label"
+  },
+  "crisisAvailable247": "Available 24/7",
+  "@crisisAvailable247": {
+    "description": "24/7 availability indicator"
+  },
+  "crisisCall": "Call Now",
+  "@crisisCall": {
+    "description": "Call button text"
+  },
+  
+  "humanSupportNotice": "HOPE provides AI-powered support only. For human assistance, please contact the crisis resources above.",
+  "@humanSupportNotice": {
+    "description": "Notice that no human support is available"
+  },
+  "aiOnlyDisclaimer": "This is an AI assistant, not a human counselor",
+  "@aiOnlyDisclaimer": {
+    "description": "AI-only disclaimer"
+  },
+  
+  "settingsLanguage": "Language",
+  "@settingsLanguage": {
+    "description": "Language setting label"
+  },
+  "settingsTheme": "Theme",
+  "@settingsTheme": {
+    "description": "Theme setting label"
+  },
+  "settingsNotifications": "Notifications",
+  "@settingsNotifications": {
+    "description": "Notifications setting label"
+  },
+  "settingsPrivacy": "Privacy & Data",
+  "@settingsPrivacy": {
+    "description": "Privacy setting label"
+  },
+  "settingsAbout": "About HOPE",
+  "@settingsAbout": {
+    "description": "About section label"
+  },
+  
+  "consentTitle": "Welcome to HOPE",
+  "@consentTitle": {
+    "description": "Consent screen title"
+  },
+  "consentTerms": "I accept the Terms of Service",
+  "@consentTerms": {
+    "description": "Terms checkbox label"
+  },
+  "consentPrivacy": "I accept the Privacy Policy",
+  "@consentPrivacy": {
+    "description": "Privacy checkbox label"
+  },
+  "consentAge": "I confirm I am 13 years or older",
+  "@consentAge": {
+    "description": "Age confirmation checkbox"
+  },
+  "consentContinue": "Continue",
+  "@consentContinue": {
+    "description": "Continue button"
+  },
+  
+  "errorGeneric": "Something went wrong. Please try again.",
+  "@errorGeneric": {
+    "description": "Generic error message"
+  },
+  "errorNetwork": "Unable to connect. Please check your internet connection.",
+  "@errorNetwork": {
+    "description": "Network error message"
+  },
+  "loading": "Loading...",
+  "@loading": {
+    "description": "Loading indicator text"
+  },
+  "retry": "Retry",
+  "@retry": {
+    "description": "Retry button text"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button text"
+  },
+  "ok": "OK",
+  "@ok": {
+    "description": "OK button text"
+  },
+  "done": "Done",
+  "@done": {
+    "description": "Done button text"
+  }
+}

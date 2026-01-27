@@ -65,7 +65,12 @@ class OpenAISettings(BaseSettings):
 class GeminiSettings(BaseSettings):
     """Google Gemini API configuration."""
     
-    model_config = SettingsConfigDict(env_prefix="HOPE_GEMINI_")
+    model_config = SettingsConfigDict(
+        env_prefix="HOPE_GEMINI_",
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
     
     api_key: SecretStr = Field(default=SecretStr(""), description="Gemini API key")
     model: str = Field(default="gemini-pro", description="Model identifier")
@@ -131,7 +136,7 @@ class Settings(BaseSettings):
     )
     api_version: str = Field(default="v1", description="API version prefix")
     cors_origins: list[str] = Field(
-        default=["http://localhost:3000"],
+        default=["http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:8000", "http://127.0.0.1:8000"],
         description="Allowed CORS origins"
     )
     

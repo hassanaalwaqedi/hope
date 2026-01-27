@@ -73,7 +73,7 @@ class SessionModel(Base):
         nullable=True,
         doc="Reason for escalation if applicable"
     )
-    metadata: Mapped[dict] = mapped_column(
+    session_metadata: Mapped[dict] = mapped_column(
         JSONB,
         default=dict,
         doc="Additional session metadata"

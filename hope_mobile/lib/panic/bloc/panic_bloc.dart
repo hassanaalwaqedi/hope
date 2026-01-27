@@ -120,6 +120,7 @@ class PanicBloc extends Bloc<PanicEvent, PanicSessionState> {
   StreamSubscription? _messageSubscription;
   StreamSubscription? _connectionSubscription;
   Timer? _autoEscalationTimer;
+  bool _isTransitioning = false; // Prevent re-routing during transitions
   
   // Fallback messages for offline mode
   static const List<String> _fallbackMessages = [
@@ -236,6 +237,9 @@ class PanicBloc extends Bloc<PanicEvent, PanicSessionState> {
     IntensityReported event,
     Emitter<PanicSessionState> emit,
   ) async {
+    // Skip if we're in the middle of a transition
+    if (_isTransitioning) return;
+    
     final newIntensity = event.intensity;
     final previousIntensity = state.reportedIntensity;
     
@@ -259,8 +263,10 @@ class PanicBloc extends Bloc<PanicEvent, PanicSessionState> {
       ));
     }
     
-    // Check if re-routing is needed
-    if (state.activeExercise != null) {
+    // Check if re-routing is needed (but not if we just transitioned)
+    if (state.activeExercise != null && 
+        state.phase == PanicPhase.active &&
+        state.activeExercise!.durationMs > 5000) { // Wait at least 5 seconds before re-routing
       final transition = _router.determineTransition(
         currentState: state.uxState ?? PanicUXState.MILD_PANIC,
         currentIntensity: newIntensity,
@@ -286,6 +292,10 @@ class PanicBloc extends Bloc<PanicEvent, PanicSessionState> {
     ExerciseTransitionRequested event,
     Emitter<PanicSessionState> emit,
   ) async {
+    // Prevent double transitions
+    if (_isTransitioning) return;
+    _isTransitioning = true;
+    
     emit(state.copyWith(
       phase: PanicPhase.transitioning,
     ));
@@ -314,6 +324,9 @@ class PanicBloc extends Bloc<PanicEvent, PanicSessionState> {
       activeExercise: newExercise,
       currentMessage: _getExerciseMessage(event.toExercise),
     ));
+    
+    // Allow future transitions after this one completes
+    _isTransitioning = false;
     
     _analytics.logExerciseStarted(
       exerciseType: event.toExercise,

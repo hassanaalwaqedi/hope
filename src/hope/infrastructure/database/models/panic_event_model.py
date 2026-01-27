@@ -135,7 +135,7 @@ class PanicEventModel(Base):
     )
     
     # Additional data
-    metadata: Mapped[dict] = mapped_column(
+    event_metadata: Mapped[dict] = mapped_column(
         JSONB,
         default=dict,
         doc="Additional event metadata"

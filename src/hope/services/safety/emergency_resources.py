@@ -235,6 +235,91 @@ class EmergencyResourceResolver:
                 ),
             ],
         ),
+        "FR": JurisdictionResources(
+            country_code="FR",
+            country_name="France",
+            emergency_number="112",
+            resources=[
+                EmergencyResource(
+                    name="Numéro National de Prévention du Suicide",
+                    resource_type="hotline",
+                    contact="3114",
+                    description="Ligne nationale de prévention du suicide",
+                    available_24_7=True,
+                    languages=["fr"],
+                ),
+                EmergencyResource(
+                    name="SOS Amitié",
+                    resource_type="hotline",
+                    contact="09 72 39 40 50",
+                    description="Écoute et soutien émotionnel",
+                    available_24_7=True,
+                    languages=["fr"],
+                ),
+                EmergencyResource(
+                    name="SAMU",
+                    resource_type="hotline",
+                    contact="15",
+                    description="Urgences médicales",
+                    available_24_7=True,
+                    languages=["fr"],
+                ),
+            ],
+        ),
+        "DE": JurisdictionResources(
+            country_code="DE",
+            country_name="Germany",
+            emergency_number="112",
+            resources=[
+                EmergencyResource(
+                    name="TelefonSeelsorge",
+                    resource_type="hotline",
+                    contact="0800 111 0 111",
+                    description="Telefonseelsorge - Kostenlose Krisenberatung",
+                    available_24_7=True,
+                    languages=["de"],
+                ),
+                EmergencyResource(
+                    name="TelefonSeelsorge (Alternativ)",
+                    resource_type="hotline",
+                    contact="0800 111 0 222",
+                    description="Alternative Krisenhotline",
+                    available_24_7=True,
+                    languages=["de"],
+                ),
+                EmergencyResource(
+                    name="Kinder- und Jugendtelefon",
+                    resource_type="hotline",
+                    contact="116 111",
+                    description="Beratung für Kinder und Jugendliche",
+                    available_24_7=False,
+                    languages=["de"],
+                ),
+            ],
+        ),
+        "ES": JurisdictionResources(
+            country_code="ES",
+            country_name="Spain",
+            emergency_number="112",
+            resources=[
+                EmergencyResource(
+                    name="Línea de Atención a la Conducta Suicida",
+                    resource_type="hotline",
+                    contact="024",
+                    description="Línea nacional de prevención del suicidio",
+                    available_24_7=True,
+                    languages=["es"],
+                ),
+                EmergencyResource(
+                    name="Teléfono de la Esperanza",
+                    resource_type="hotline",
+                    contact="717 003 717",
+                    description="Apoyo emocional y prevención del suicidio",
+                    available_24_7=True,
+                    languages=["es"],
+                ),
+            ],
+        ),
     }
     
     def __init__(

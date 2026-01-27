@@ -28,8 +28,11 @@ class PanicActiveScreen extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        // Route to appropriate screen based on state
-        return _buildScreen(context, state);
+        // Route to appropriate screen based on state with smooth transition
+        return AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          child: _buildScreen(context, state),
+        );
       },
     );
   }
@@ -48,6 +51,7 @@ class PanicActiveScreen extends StatelessWidget {
     switch (exerciseType) {
       case 'breathing':
         return AdaptiveBreathingExercise(
+          key: const ValueKey('breathing_exercise'),
           config: state.activeExercise?.config ?? {},
           intensity: state.reportedIntensity,
           message: state.currentMessage,
@@ -57,6 +61,7 @@ class PanicActiveScreen extends StatelessWidget {
         
       case 'grounding':
         return AdaptiveGroundingExercise(
+          key: const ValueKey('grounding_exercise'),
           config: state.activeExercise?.config ?? {},
           intensity: state.reportedIntensity,
           message: state.currentMessage,

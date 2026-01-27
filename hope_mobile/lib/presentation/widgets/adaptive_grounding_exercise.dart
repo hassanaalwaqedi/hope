@@ -94,13 +94,7 @@ class _AdaptiveGroundingExerciseState extends State<AdaptiveGroundingExercise> {
     if (widget.config['skipIntro'] == true) {
       // Start directly
     }
-    
-    _analytics.logExerciseStarted(
-      exerciseType: 'grounding',
-      panicState: _analytics.toString().contains('SEVERE') 
-          ? PanicUXState.SEVERE_PANIC 
-          : PanicUXState.MODERATE_PANIC,
-    );
+    // Note: exerciseStarted is logged in PanicBloc._onExerciseTransition
   }
 
   @override
@@ -126,10 +120,17 @@ class _AdaptiveGroundingExerciseState extends State<AdaptiveGroundingExercise> {
       child: Scaffold(
         backgroundColor: const Color(0xFF1A1A2E),
         body: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            child: Column(
-              children: [
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: constraints.maxHeight - 32,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
                 // Header
                 _buildHeader(),
                 
@@ -319,8 +320,11 @@ class _AdaptiveGroundingExerciseState extends State<AdaptiveGroundingExercise> {
                     ),
                   ],
                 ),
-              ],
-            ),
+                    ],
+                  ),
+                ),
+              );
+            },
           ),
         ),
       ),

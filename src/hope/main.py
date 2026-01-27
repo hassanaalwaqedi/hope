@@ -58,6 +58,18 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     
     # Startup
     try:
+        # Initialize Sentry for production monitoring
+        if settings.env != "development":
+            from hope.infrastructure.monitoring.sentry_integration import init_sentry
+            import os
+            sentry_dsn = os.environ.get("HOPE_SENTRY_DSN", "")
+            if sentry_dsn:
+                init_sentry(
+                    dsn=sentry_dsn,
+                    environment=settings.env,
+                    release="hope@0.1.0",
+                )
+        
         # Initialize database
         db = get_db_manager()
         await db.initialize()
@@ -119,6 +131,10 @@ def create_application() -> FastAPI:
         prefix=f"/api/{settings.api_version}",
     )
     
+    # Register WebSocket endpoints (at root level, not under /api/v1)
+    from hope.api.v1.endpoints.websocket import router as ws_router
+    app.include_router(ws_router)
+    
     # Root endpoint
     @app.get("/", include_in_schema=False)
     async def root() -> dict:
@@ -128,6 +144,12 @@ def create_application() -> FastAPI:
             "version": "0.1.0",
             "status": "operational",
         }
+    
+    # Root health endpoint for Flutter connectivity check
+    @app.get("/health", include_in_schema=False)
+    async def health_root() -> dict:
+        """Root health endpoint for mobile app connectivity check."""
+        return {"status": "ok"}
     
     return app
 
