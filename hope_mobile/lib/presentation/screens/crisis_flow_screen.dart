@@ -12,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:dio/dio.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/theme/hope_icons.dart';
 import '../../panic/bloc/panic_bloc.dart';
 import '../../panic/ux/panic_analytics.dart';
 import '../../panic/ux/panic_state_classifier.dart';
@@ -155,10 +156,9 @@ class _CrisisFlowScreenState extends State<CrisisFlowScreen> {
                 const SizedBox(height: 24),
                 
                 // Main message
-                const Icon(
-                  Icons.favorite,
-                  color: Colors.white,
+                HopeIcons.butterfly(
                   size: 48,
+                  color: Colors.white,
                 ),
                 const SizedBox(height: 16),
                 Text(

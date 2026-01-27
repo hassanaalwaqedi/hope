@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../core/theme/app_theme.dart';
+import '../../core/theme/hope_icons.dart';
 import '../../core/network/connectivity_service.dart';
 import '../../data/services/chat_api_service.dart';
 
@@ -532,10 +533,9 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
         ),
         title: Row(
           children: [
-            Icon(
-              Icons.favorite_rounded,
-              color: HopeColors.coral,
+            HopeIcons.butterfly(
               size: 24,
+              color: HopeColors.coral,
             ),
             const SizedBox(width: HopeSpacing.sm),
             Text(_language == 'fr' ? 'Ressources d\'aide' : 'Help Resources'),
@@ -632,10 +632,9 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                 color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(HopeSpacing.radiusSm),
               ),
-              child: Icon(
-                Icons.favorite_rounded,
-                color: Theme.of(context).colorScheme.primary,
+              child: HopeIcons.butterfly(
                 size: 18,
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
             const SizedBox(width: HopeSpacing.sm),
@@ -828,10 +827,9 @@ class _MessageBubble extends StatelessWidget {
                 color: Theme.of(context).colorScheme.primary.withOpacity(0.15),
                 borderRadius: BorderRadius.circular(HopeSpacing.radiusSm),
               ),
-              child: Icon(
-                Icons.favorite_rounded,
-                color: Theme.of(context).colorScheme.primary,
+              child: HopeIcons.butterfly(
                 size: 18,
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
             const SizedBox(width: HopeSpacing.sm),
@@ -964,10 +962,9 @@ class _TypingIndicatorState extends State<_TypingIndicator>
               color: Theme.of(context).colorScheme.primary.withOpacity(0.15),
               borderRadius: BorderRadius.circular(HopeSpacing.radiusSm),
             ),
-            child: Icon(
-              Icons.favorite_rounded,
-              color: Theme.of(context).colorScheme.primary,
+            child: HopeIcons.butterfly(
               size: 18,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
           const SizedBox(width: HopeSpacing.sm),

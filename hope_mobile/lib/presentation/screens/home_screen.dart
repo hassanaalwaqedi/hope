@@ -16,6 +16,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../panic/bloc/panic_bloc.dart';
 import '../../panic/panic_state.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/theme/hope_icons.dart';
 import 'panic_active_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -350,11 +351,10 @@ class _HopeButtonState extends State<HopeButton>
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Heart icon with gentle pulse
-                    Icon(
-                      Icons.favorite_rounded,
-                      color: Colors.white.withOpacity(0.95),
+                    // Butterfly icon with gentle pulse
+                    HopeIcons.butterfly(
                       size: 36,
+                      color: Colors.white.withOpacity(0.95),
                     ),
                     const SizedBox(height: HopeSpacing.sm),
                     // Main text

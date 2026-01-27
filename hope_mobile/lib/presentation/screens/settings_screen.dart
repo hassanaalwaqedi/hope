@@ -16,6 +16,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../core/theme/app_theme.dart';
+import '../../core/theme/hope_icons.dart';
 import '../../core/settings/settings_service.dart';
 import '../../core/settings/settings_bloc.dart';
 import '../../core/settings/legal_documents.dart';
@@ -116,7 +117,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               // Panic settings
               _SettingsSection(
                 title: 'Mode Panique',
-                icon: Icons.favorite_rounded,
+                iconWidget: HopeIcons.butterfly(size: 18),
                 isDark: isDark,
                 children: [
                   _SwitchTile(
@@ -238,7 +239,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     subtitle: _packageInfo != null 
                         ? 'Version ${_packageInfo!.version} (${_packageInfo!.buildNumber})'
                         : 'Version 1.0.0',
-                    icon: Icons.favorite_rounded,
+                    iconWidget: HopeIcons.butterfly(size: 20),
                     onTap: () => _showAboutDialog(context, isDark),
                     isDark: isDark,
                   ),
@@ -640,7 +641,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           color: Theme.of(context).colorScheme.primary,
           borderRadius: BorderRadius.circular(HopeSpacing.radiusMd),
         ),
-        child: const Icon(Icons.favorite_rounded, color: Colors.white),
+        child: HopeIcons.butterfly(size: 24, color: Colors.white),
       ),
       applicationLegalese: '© 2026 HOPE Team. Tous droits réservés.',
       children: [
@@ -730,13 +731,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
 class _SettingsSection extends StatelessWidget {
   final String title;
-  final IconData icon;
+  final IconData? icon;
+  final Widget? iconWidget;
   final bool isDark;
   final List<Widget> children;
 
   const _SettingsSection({
     required this.title,
-    required this.icon,
+    this.icon,
+    this.iconWidget,
     required this.isDark,
     required this.children,
   });
@@ -754,11 +757,14 @@ class _SettingsSection extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Icon(
-                icon,
-                size: 18,
-                color: Theme.of(context).colorScheme.primary,
-              ),
+              if (iconWidget != null)
+                iconWidget!
+              else if (icon != null)
+                Icon(
+                  icon,
+                  size: 18,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               const SizedBox(width: HopeSpacing.sm),
               Text(
                 title,
@@ -992,7 +998,8 @@ class _ThemeTile extends StatelessWidget {
 class _ActionTile extends StatelessWidget {
   final String title;
   final String subtitle;
-  final IconData icon;
+  final IconData? icon;
+  final Widget? iconWidget;
   final VoidCallback onTap;
   final bool isDestructive;
   final bool isLoading;
@@ -1001,7 +1008,8 @@ class _ActionTile extends StatelessWidget {
   const _ActionTile({
     required this.title,
     required this.subtitle,
-    required this.icon,
+    this.icon,
+    this.iconWidget,
     required this.onTap,
     required this.isDark,
     this.isDestructive = false,
@@ -1036,7 +1044,7 @@ class _ActionTile extends StatelessWidget {
                 color: color.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(HopeSpacing.radiusSm),
               ),
-              child: Icon(icon, color: color, size: 20),
+              child: iconWidget ?? Icon(icon, color: color, size: 20),
             ),
       title: Text(
         title,

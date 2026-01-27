@@ -73,7 +73,7 @@ class FrenchCrisisResources {
       is24h: true,
       isFree: true,
       url: 'https://www.sos-amitie.com',
-      icon: Icons.favorite,
+      icon: Icons.support_agent,
     ),
     CrisisResource(
       name: 'Fil Santé Jeunes',
