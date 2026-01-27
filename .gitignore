@@ -18,6 +18,7 @@ lib/
 lib64/
 # Exception for Flutter
 !hope_mobile/lib/
+!hope_mobile/build/web/
 parts/
 sdist/
 var/
