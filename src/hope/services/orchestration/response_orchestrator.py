@@ -29,8 +29,8 @@ from hope.services.decision.decision_engine import (
 from hope.services.prompt.prompt_builder import PromptBuilder, BuiltPrompt
 from hope.services.safety.safety_validator import SafetyValidator, SafetyResult
 from hope.infrastructure.llm.provider import LLMProvider, LLMResponse, LLMProviderError
-from hope.infrastructure.llm.openai_provider import OpenAIProvider
 from hope.infrastructure.llm.gemini_provider import GeminiProvider
+from hope.infrastructure.llm.gemini_flash_provider import GeminiFlashProvider
 
 logger = get_logger(__name__)
 
@@ -120,25 +120,23 @@ class ResponseOrchestrator:
         self._prompt_builder = prompt_builder or PromptBuilder()
         self._safety = safety_validator or SafetyValidator()
         
-        # Initialize LLM providers based on settings
+        # Initialize LLM providers - using Gemini only
         settings = get_settings()
         
         if primary_llm:
             self._primary_llm = primary_llm
         else:
-            if settings.llm_primary_provider == "openai":
-                self._primary_llm = OpenAIProvider()
+            # Use Gemini Flash as primary (faster)
+            if settings.llm_primary_provider == "gemini_flash":
+                self._primary_llm = GeminiFlashProvider()
             else:
                 self._primary_llm = GeminiProvider()
         
         if fallback_llm:
             self._fallback_llm = fallback_llm
         else:
-            # Use alternate provider as fallback
-            if settings.llm_primary_provider == "openai":
-                self._fallback_llm = GeminiProvider()
-            else:
-                self._fallback_llm = OpenAIProvider()
+            # Use regular Gemini as fallback
+            self._fallback_llm = GeminiProvider()
     
     async def initialize(self) -> None:
         """
