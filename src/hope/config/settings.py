@@ -8,10 +8,14 @@ SECURITY: Never log or expose settings containing secrets.
 """
 
 from functools import lru_cache
+from pathlib import Path
 from typing import Literal
 
 from pydantic import Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# Find .env file - look in parent directories up to project root
+_ENV_FILE = Path(__file__).parent.parent.parent.parent / ".env"
 
 
 class DatabaseSettings(BaseSettings):
@@ -67,7 +71,7 @@ class GeminiSettings(BaseSettings):
     
     model_config = SettingsConfigDict(
         env_prefix="HOPE_GEMINI_",
-        env_file=".env",
+        env_file=str(_ENV_FILE),
         env_file_encoding="utf-8",
         extra="ignore",
     )
@@ -119,7 +123,7 @@ class Settings(BaseSettings):
     
     model_config = SettingsConfigDict(
         env_prefix="HOPE_",
-        env_file=".env",
+        env_file=str(_ENV_FILE),
         env_file_encoding="utf-8",
         extra="ignore",
     )
@@ -136,7 +140,7 @@ class Settings(BaseSettings):
     )
     api_version: str = Field(default="v1", description="API version prefix")
     cors_origins: list[str] = Field(
-        default=["http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:8000", "http://127.0.0.1:8000"],
+        default=["*"],  # Allow all origins in development - Flutter web uses dynamic ports
         description="Allowed CORS origins"
     )
     

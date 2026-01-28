@@ -114,10 +114,11 @@ def create_application() -> FastAPI:
     )
     
     # Add CORS middleware
+    # For development, allow all origins (credentials disabled for wildcard compatibility)
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=settings.cors_origins,
-        allow_credentials=True,
+        allow_origins=["*"],  # Allow all for dev - Flutter web uses dynamic ports
+        allow_credentials=False,  # Must be False when using wildcard "*"
         allow_methods=["*"],
         allow_headers=["*"],
     )
