@@ -22,3 +22,4 @@ alembic>=1.13.0
 python-dotenv>=1.0.0
 python-multipart>=0.0.9
 structlog>=24.1.0
+tenacity>=8.2.0
