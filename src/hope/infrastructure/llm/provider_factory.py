@@ -92,8 +92,13 @@ def get_llm_provider(
 def _create_provider(provider_type: LLMProviderType) -> LLMProvider:
     """Create provider instance by type."""
     if provider_type == LLMProviderType.OPENAI:
-        from hope.infrastructure.llm.openai_provider import OpenAIProvider
-        return OpenAIProvider()
+        try:
+            from hope.infrastructure.llm.openai_provider import OpenAIProvider
+            return OpenAIProvider()
+        except ImportError:
+            raise ValueError(
+                "OpenAI provider not available. Install with: pip install openai tenacity"
+            )
     
     elif provider_type == LLMProviderType.GEMINI:
         from hope.infrastructure.llm.gemini_provider import GeminiProvider

@@ -7,10 +7,17 @@ from hope.infrastructure.llm.provider import (
     RateLimitError,
     ContentFilterError,
 )
-from hope.infrastructure.llm.openai_provider import OpenAIProvider
 from hope.infrastructure.llm.gemini_provider import GeminiProvider
 from hope.infrastructure.llm.gemini_flash_provider import GeminiFlashProvider
 from hope.infrastructure.llm.provider_factory import get_llm_provider, LLMProviderType
+
+# Optional: OpenAI provider (requires openai package)
+try:
+    from hope.infrastructure.llm.openai_provider import OpenAIProvider
+    OPENAI_AVAILABLE = True
+except ImportError:
+    OpenAIProvider = None
+    OPENAI_AVAILABLE = False
 
 __all__ = [
     # Base types
