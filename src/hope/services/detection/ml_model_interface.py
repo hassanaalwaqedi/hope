@@ -13,8 +13,22 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Any, Optional
 
-import torch
-from transformers import AutoTokenizer, AutoModel, AutoModelForSequenceClassification
+# Optional heavy ML dependencies - not required for basic operation
+try:
+    import torch
+    TORCH_AVAILABLE = True
+except ImportError:
+    torch = None
+    TORCH_AVAILABLE = False
+
+try:
+    from transformers import AutoTokenizer, AutoModel, AutoModelForSequenceClassification
+    TRANSFORMERS_AVAILABLE = True
+except ImportError:
+    AutoTokenizer = None
+    AutoModel = None
+    AutoModelForSequenceClassification = None
+    TRANSFORMERS_AVAILABLE = False
 
 
 @dataclass
@@ -125,15 +139,21 @@ class HuggingFaceEmotionModel(MLModelInterface):
             device: Device to run on (cuda/cpu/auto)
         """
         self._model_name = model_name
-        self._device = device or ("cuda" if torch.cuda.is_available() else "cpu")
-        self._model: Optional[AutoModelForSequenceClassification] = None
-        self._tokenizer: Optional[AutoTokenizer] = None
+        if TORCH_AVAILABLE:
+            self._device = device or ("cuda" if torch.cuda.is_available() else "cpu")
+        else:
+            self._device = "cpu"
+        self._model = None
+        self._tokenizer = None
         self._loaded = False
     
     async def load(self) -> None:
         """Load model and tokenizer."""
         if self._loaded:
             return
+        
+        if not TRANSFORMERS_AVAILABLE:
+            raise RuntimeError("Transformers not installed. Install with: pip install transformers torch")
         
         self._tokenizer = AutoTokenizer.from_pretrained(self._model_name)
         self._model = AutoModelForSequenceClassification.from_pretrained(
@@ -147,7 +167,7 @@ class HuggingFaceEmotionModel(MLModelInterface):
         self._model = None
         self._tokenizer = None
         self._loaded = False
-        if torch.cuda.is_available():
+        if TORCH_AVAILABLE and torch.cuda.is_available():
             torch.cuda.empty_cache()
     
     def is_loaded(self) -> bool:
