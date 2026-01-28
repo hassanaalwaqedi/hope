@@ -1,4 +1,4 @@
-# HOPE Backend - Minimal Production Dependencies
+# HOPE Backend - Production Dependencies
 # Python 3.11+ required
 
 # Web Framework
@@ -12,6 +12,11 @@ google-generativeai>=0.3.0
 
 # HTTP Client
 httpx>=0.26.0
+
+# Database - PostgreSQL with async support
+sqlalchemy[asyncio]>=2.0.25
+asyncpg>=0.29.0
+alembic>=1.13.0
 
 # Utilities
 python-dotenv>=1.0.0
