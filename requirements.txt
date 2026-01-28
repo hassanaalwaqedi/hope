@@ -16,3 +16,4 @@ httpx>=0.26.0
 # Utilities
 python-dotenv>=1.0.0
 python-multipart>=0.0.9
+structlog>=24.1.0
