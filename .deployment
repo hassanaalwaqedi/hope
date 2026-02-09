@@ -1,0 +1,5 @@
+# Azure Deployment Configuration
+# Tells Oryx to run custom deployment steps
+
+[build]
+custom_build_command = "pip install -e ."
