@@ -60,27 +60,42 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     try:
         # Initialize Sentry for production monitoring
         if settings.env != "development":
-            from hope.infrastructure.monitoring.sentry_integration import init_sentry
-            import os
-            sentry_dsn = os.environ.get("HOPE_SENTRY_DSN", "")
-            if sentry_dsn:
-                init_sentry(
-                    dsn=sentry_dsn,
-                    environment=settings.env,
-                    release="hope@0.1.0",
-                )
+            try:
+                from hope.infrastructure.monitoring.sentry_integration import init_sentry
+                import os
+                sentry_dsn = os.environ.get("HOPE_SENTRY_DSN", "")
+                if sentry_dsn:
+                    init_sentry(
+                        dsn=sentry_dsn,
+                        environment=settings.env,
+                        release="hope@0.1.0",
+                    )
+            except Exception as e:
+                logger.warning("Sentry initialization failed", error=str(e))
         
         # Initialize database
-        db = get_db_manager()
-        await db.initialize()
-        logger.info("Database connection initialized")
+        try:
+            db = get_db_manager()
+            await db.initialize()
+            logger.info("Database connection initialized")
+        except Exception as e:
+            logger.error(
+                "Database initialization failed - app will start but DB features unavailable",
+                error=str(e),
+            )
         
         # Initialize orchestrator (and ML models)
-        _orchestrator = ResponseOrchestrator()
-        if settings.env != "development":
-            # Only pre-load models in non-dev environments
-            await _orchestrator.initialize()
-        logger.info("Response orchestrator initialized")
+        try:
+            _orchestrator = ResponseOrchestrator()
+            if settings.env != "development":
+                # Only pre-load models in non-dev environments
+                await _orchestrator.initialize()
+            logger.info("Response orchestrator initialized")
+        except Exception as e:
+            logger.error(
+                "Orchestrator initialization failed",
+                error=str(e),
+            )
         
         yield
         
@@ -89,10 +104,16 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         logger.info("Shutting down HOPE application")
         
         if _orchestrator:
-            await _orchestrator.shutdown()
+            try:
+                await _orchestrator.shutdown()
+            except Exception:
+                pass
         
-        db = get_db_manager()
-        await db.close()
+        try:
+            db = get_db_manager()
+            await db.close()
+        except Exception:
+            pass
         
         logger.info("HOPE application shutdown complete")
 

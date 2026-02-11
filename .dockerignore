@@ -1,0 +1,48 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv
+venv/
+ENV/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.*
+!.env.example
+!.env.production.template
+
+# Mobile app (not needed in backend image)
+hope_mobile/
+mobile/
+
+# Tests (optional - remove if you want tests in image)
+tests/
+
+# Documentation
+*.md
+!README.md
+
+# Other
+*.log
+*.tmp
+.DS_Store
+Thumbs.db

@@ -102053,7 +102053,7 @@ zS(){var s=0,r=A.D(t.y),q,p=2,o=[],n,m,l,k,j
 var $async$zS=A.E(function(a,b){if(a===1){o.push(b)
 s=p}for(;;)switch(s){case 0:p=4
 s=7
-return A.H(A.b2d(A.ed("http://localhost:8000/health",0,null)).yH(0,B.mJ),$async$zS)
+return A.H(A.b2d(A.ed("https://hope-api-b3bxa3htdkd3guhc.swedencentral-01.azurewebsites.net/health",0,null)).yH(0,B.mJ),$async$zS)
 case 7:n=b
 l=n.b
 q=l===200
@@ -102621,7 +102621,7 @@ A.afn.prototype={
 vb(a){return this.a5y(a)},
 a5y(a){var s=0,r=A.D(t.Z0),q,p=this,o,n,m,l
 var $async$vb=A.E(function(b,c){if(b===1)return A.A(c,r)
-for(;;)switch(s){case 0:n=A.ed("http://localhost:8000/api/v1/chat/session/start",0,null)
+for(;;)switch(s){case 0:n=A.ed("https://hope-api-b3bxa3htdkd3guhc.swedencentral-01.azurewebsites.net/api/v1/chat/session/start",0,null)
 m=t.N
 l=A.am(["Content-Type","application/json"],m,m)
 m=A.y(m,m)
@@ -102644,7 +102644,7 @@ return A.C($async$vb,r)},
 ze(a,b,c,d){return this.a4E(a,b,c,d)},
 a4E(a,b,c,d){var s=0,r=A.D(t.pt),q,p=this,o,n,m,l,k,j
 var $async$ze=A.E(function(e,f){if(e===1)return A.A(f,r)
-for(;;)switch(s){case 0:m=A.ed("http://localhost:8000/api/v1/chat/message",0,null)
+for(;;)switch(s){case 0:m=A.ed("https://hope-api-b3bxa3htdkd3guhc.swedencentral-01.azurewebsites.net/api/v1/chat/message",0,null)
 l=t.N
 k=A.am(["Content-Type","application/json"],l,l)
 j=A.y(l,l)
@@ -103764,7 +103764,7 @@ this.AB()},
 AB(){var s=0,r=A.D(t.H),q=1,p=[],o=this,n,m,l,k,j,i,h,g,f
 var $async$AB=A.E(function(a,b){if(a===1){p.push(b)
 s=q}for(;;)switch(s){case 0:q=3
-n=A.b8u(A.b73("http://10.0.2.2:8000",B.mJ,null,B.mJ))
+n=A.b8u(A.b73("https://hope-api-b3bxa3htdkd3guhc.swedencentral-01.azurewebsites.net",B.mJ,null,B.mJ))
 i=A.cc(o.a.c.i(0,"countryCode"))
 if(i==null){$.aa.toString
 i=$.b7().d.f

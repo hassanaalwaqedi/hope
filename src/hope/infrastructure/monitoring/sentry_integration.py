@@ -10,11 +10,15 @@ SECURITY: All sensitive fields are stripped before sending to Sentry.
 import re
 from typing import Any, Optional
 
-import sentry_sdk
-from sentry_sdk.integrations.fastapi import FastApiIntegration
-from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
-from sentry_sdk.integrations.asyncio import AsyncioIntegration
-from sentry_sdk.integrations.logging import LoggingIntegration
+try:
+    import sentry_sdk
+    from sentry_sdk.integrations.fastapi import FastApiIntegration
+    from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
+    from sentry_sdk.integrations.asyncio import AsyncioIntegration
+    from sentry_sdk.integrations.logging import LoggingIntegration
+    SENTRY_AVAILABLE = True
+except ImportError:
+    SENTRY_AVAILABLE = False
 
 from hope.config.logging_config import get_logger
 
@@ -135,6 +139,10 @@ def init_sentry(
         sample_rate: Error sample rate (1.0 = all errors)
         traces_sample_rate: Performance tracing rate
     """
+    if not SENTRY_AVAILABLE:
+        logger.warning("sentry-sdk not installed, error tracking disabled")
+        return
+    
     if not dsn:
         logger.warning("Sentry DSN not configured, error tracking disabled")
         return
@@ -177,6 +185,8 @@ def set_user_context(user_id: str, session_id: Optional[str] = None) -> None:
     
     Uses anonymized IDs only - no PII.
     """
+    if not SENTRY_AVAILABLE:
+        return
     sentry_sdk.set_user({
         "id": user_id,
         "session_id": session_id,
@@ -189,6 +199,8 @@ def set_panic_context(
     risk_level: Optional[str] = None,
 ) -> None:
     """Set panic session context for debugging."""
+    if not SENTRY_AVAILABLE:
+        return
     sentry_sdk.set_context("panic_session", {
         "session_id": session_id,
         "severity": severity,
@@ -206,6 +218,8 @@ def capture_safety_event(
     
     Used for tracking escalations, crisis signals, etc.
     """
+    if not SENTRY_AVAILABLE:
+        return
     with sentry_sdk.push_scope() as scope:
         scope.set_tag("category", "safety")
         if extra:
@@ -228,6 +242,8 @@ def capture_exception_with_context(
     
     Returns: Sentry event ID
     """
+    if not SENTRY_AVAILABLE:
+        return ""
     with sentry_sdk.push_scope() as scope:
         if session_id:
             scope.set_tag("session_id", session_id)

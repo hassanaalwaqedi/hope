@@ -29,3 +29,6 @@ python-multipart>=0.0.9
 structlog>=24.1.0
 tenacity>=8.2.0
 langdetect>=1.0.9
+
+# Monitoring
+sentry-sdk[fastapi]>=1.40.0
