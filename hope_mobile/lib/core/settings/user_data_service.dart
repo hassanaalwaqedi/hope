@@ -48,7 +48,7 @@ class DataDeletionResult {
 /// - Local + backend data handling
 class UserDataService {
   // Production Azure backend
-  static const _backendUrl = 'https://hope-api-b3bxa3htdkd3guhc.swedencentral-01.azurewebsites.net';
+  static const _backendUrl = 'https://hope-api-b3bxa3htdsd3guhc.swedencentral-01.azurewebsites.net';
   
   // For local development, uncomment this:
   // static const _backendUrl = 'http://10.0.2.2:8000';

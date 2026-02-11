@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 /// Configuration for the chat API
 class ChatConfig {
   // Production Azure backend
-  static const String baseUrl = 'https://hope-api-b3bxa3htdkd3guhc.swedencentral-01.azurewebsites.net/api/v1';
+  static const String baseUrl = 'https://hope-api-b3bxa3htdsd3guhc.swedencentral-01.azurewebsites.net/api/v1';
   
   // For local development, uncomment this:
   // static const String baseUrl = 'http://localhost:8000/api/v1';

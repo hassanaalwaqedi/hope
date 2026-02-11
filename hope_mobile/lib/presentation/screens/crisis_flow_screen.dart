@@ -80,7 +80,7 @@ class _CrisisFlowScreenState extends State<CrisisFlowScreen> {
     try {
       final dio = Dio(BaseOptions(
         // Production Azure backend
-        baseUrl: 'https://hope-api-b3bxa3htdkd3guhc.swedencentral-01.azurewebsites.net',
+        baseUrl: 'https://hope-api-b3bxa3htdsd3guhc.swedencentral-01.azurewebsites.net',
         
         // For local development, uncomment this:
         // baseUrl: 'http://10.0.2.2:8000',
