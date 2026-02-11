@@ -100,8 +100,12 @@ class ConnectivityService {
   // Backend health check timer
   Timer? _healthCheckTimer;
   
-  // Backend URL to check
-  static const String _backendHealthUrl = 'http://localhost:8000/health';
+  // Backend URL to check - Production Azure backend
+  static const String _backendHealthUrl = 'https://hope-api-b3bxa3htdkd3guhc.swedencentral-01.azurewebsites.net/health';
+  
+  // For local development, uncomment this:
+  // static const String _backendHealthUrl = 'http://localhost:8000/health';
+  
   static const Duration _healthCheckInterval = Duration(seconds: 30);
   static const Duration _healthCheckTimeout = Duration(seconds: 5);
   

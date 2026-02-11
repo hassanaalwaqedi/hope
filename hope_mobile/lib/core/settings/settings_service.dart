@@ -130,7 +130,12 @@ enum ThemePreference {
 /// - Synced to backend when authenticated
 class SettingsService {
   static const _storageKey = 'hope_user_settings';
-  static const _backendUrl = 'http://10.0.2.2:8000'; // Android emulator localhost
+  
+  // Production Azure backend
+  static const _backendUrl = 'https://hope-api-b3bxa3htdkd3guhc.swedencentral-01.azurewebsites.net';
+  
+  // For local development, uncomment this:
+  // static const _backendUrl = 'http://10.0.2.2:8000';
   
   SharedPreferences? _prefs;
   UserSettings _settings = UserSettings.defaults();

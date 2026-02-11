@@ -79,7 +79,12 @@ class _CrisisFlowScreenState extends State<CrisisFlowScreen> {
   Future<void> _loadCrisisResources() async {
     try {
       final dio = Dio(BaseOptions(
-        baseUrl: 'http://10.0.2.2:8000',  // Android emulator localhost
+        // Production Azure backend
+        baseUrl: 'https://hope-api-b3bxa3htdkd3guhc.swedencentral-01.azurewebsites.net',
+        
+        // For local development, uncomment this:
+        // baseUrl: 'http://10.0.2.2:8000',
+        
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 5),
       ));
