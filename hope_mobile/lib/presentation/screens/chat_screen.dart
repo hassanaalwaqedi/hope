@@ -24,12 +24,12 @@ import '../../data/services/chat_api_service.dart';
 
 /// Message model for display
 class ChatDisplayMessage {
-  final String id;
-  final String content;
+  String id; // Mutable for streaming updates
+  String content; // Mutable for streaming updates
   final bool isUser;
   final DateTime timestamp;
   final String? imageBase64;
-  final bool isError;
+  bool isError;
 
   ChatDisplayMessage({
     required this.id,
@@ -284,50 +284,66 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                             !_sessionId!.startsWith('offline_');
     
     if (shouldTryOnline) {
-      // Try online first
       try {
-        final response = await _chatService.sendMessage(
+        // Create an empty message bubble for streaming
+        final streamingMessage = ChatDisplayMessage(
+          id: 'streaming_${DateTime.now().millisecondsSinceEpoch}',
+          content: '',
+          isUser: false,
+          timestamp: DateTime.now(),
+        );
+        _addMessage(streamingMessage);
+        setState(() => _isTyping = false);
+        
+        // Stream tokens into the bubble
+        await for (final event in _chatService.sendMessageStream(
           sessionId: _sessionId!,
           text: text.isEmpty ? 'Analyze this image' : text,
           imageBase64: imageToSend,
           language: _language,
-        );
-        
-        // Success! Update connectivity status
-        connectivityService.notifyApiSuccess();
-        
-        // Natural typing delay
-        await Future.delayed(Duration(
-          milliseconds: 800 + math.Random().nextInt(700),
-        ));
-        
-        _addMessage(ChatDisplayMessage(
-          id: response.messageId ?? DateTime.now().millisecondsSinceEpoch.toString(),
-          content: response.textAnswer,
-          isUser: false,
-          timestamp: DateTime.now(),
-        ));
-        
-        // Update state to online if we were showing offline
-        if (!_serviceAvailable) {
-          setState(() {
-            _serviceAvailable = true;
-            _errorMessage = null;
-          });
+        )) {
+          final type = event['type'] as String;
+          
+          if (type == 'token') {
+            setState(() {
+              streamingMessage.content += event['text'] as String;
+            });
+            _scrollToBottom();
+          } else if (type == 'done') {
+            connectivityService.notifyApiSuccess();
+            if (!_serviceAvailable) {
+              setState(() {
+                _serviceAvailable = true;
+                _errorMessage = null;
+              });
+            }
+            // Update message id with the real one from the server
+            if (event['message_id'] != null) {
+              streamingMessage.id = event['message_id'];
+            }
+            if (event['escalated'] == true) {
+              _showCrisisDialog();
+            }
+          } else if (type == 'error') {
+            setState(() {
+              streamingMessage.content = _language == 'fr'
+                  ? 'Désolé, une erreur est survenue. Veuillez réessayer.'
+                  : 'Sorry, an error occurred. Please try again.';
+              streamingMessage.isError = true;
+            });
+          }
         }
         
-        if (response.escalated) {
-          _showCrisisDialog();
-        }
-        
-        setState(() => _isTyping = false);
         return;
       } catch (e) {
-        // Online failed, notify connectivity service
-        connectivityService.notifyApiFailure();
+        // Streaming failed — remove the empty streaming bubble if still empty
+        if (_messages.isNotEmpty && !_messages.last.isUser && _messages.last.content.isEmpty) {
+          setState(() => _messages.removeLast());
+        }
         
-        // Fall through to offline response
-        debugPrint('ChatScreen: Online send failed, using offline: $e');
+        connectivityService.notifyApiFailure();
+        debugPrint('ChatScreen: Streaming failed, falling back to offline: $e');
+        setState(() => _isTyping = true);
       }
     }
     

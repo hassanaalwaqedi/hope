@@ -5,6 +5,7 @@ This is the PRIMARY INTELLIGENCE LAYER for the entire HOPE application.
 All AI-powered features MUST use this service - no duplicate Gemini logic allowed.
 
 Features:
+- Streaming chat responses (SSE)
 - Single Gemini entry point
 - Cross-feature context memory
 - AI metrics logging (latency, tokens, fallback)
@@ -584,6 +585,81 @@ Ces ressources sont disponibles pour vous aider.""",
                 fallback_used=True,
             )
             raise e
+
+    async def generate_chat_response_stream(
+        self,
+        session_id: UUID,
+        system_prompt: str,
+        message_history: list[dict],
+        user_message: str,
+        detected_language: Optional[str] = None,
+    ):
+        """
+        Stream chat response tokens via centralized service.
+        
+        Yields dicts: {"type": "token", "text": "..."} for each chunk,
+        then {"type": "done", "latency_ms": ..., "full_text": "..."} at the end.
+        """
+        context = self.get_context(session_id)
+        
+        if detected_language:
+            context.language = detected_language
+        
+        if not self._configured:
+            raise ValueError("AI not configured")
+        
+        start_time = time.time()
+        
+        try:
+            full_system_prompt = system_prompt + f"\n\n--- SHARED CONTEXT ---\n{context.to_prompt_context()}"
+            
+            model = genai.GenerativeModel(
+                model_name=self.MODEL_NAME,
+                system_instruction=full_system_prompt,
+                generation_config=genai.GenerationConfig(
+                    max_output_tokens=self.MAX_TOKENS,
+                    temperature=self.TEMPERATURE,
+                ),
+            )
+            
+            chat = model.start_chat(history=message_history)
+            
+            # Stream the response
+            response = await chat.send_message_async(user_message, stream=True)
+            
+            full_text = ""
+            async for chunk in response:
+                if chunk.text:
+                    full_text += chunk.text
+                    yield {"type": "token", "text": chunk.text}
+            
+            latency_ms = int((time.time() - start_time) * 1000)
+            tokens_used = int(len(full_text.split()) * 1.3)
+            
+            self._record_metrics(
+                feature=FeatureType.CHAT,
+                latency_ms=latency_ms,
+                tokens_used=tokens_used,
+                ai_called=True,
+            )
+            
+            yield {
+                "type": "done",
+                "full_text": full_text,
+                "latency_ms": latency_ms,
+                "ai_called": True,
+            }
+            
+        except Exception as e:
+            logger.error(f"Streaming chat AI failed: {e}")
+            self._record_metrics(
+                feature=FeatureType.CHAT,
+                latency_ms=int((time.time() - start_time) * 1000),
+                tokens_used=0,
+                ai_called=False,
+                fallback_used=True,
+            )
+            yield {"type": "error", "message": str(e)}
 
 
 # =============================================================================

@@ -103,7 +103,7 @@ class ConnectivityService {
   // Backend URL to check - Production Azure backend
   static const String _backendHealthUrl = 'https://hope-api-b3bxa3htdsd3guhc.swedencentral-01.azurewebsites.net/health';
   
-  // For local development, uncomment this:
+  // For local development:
   // static const String _backendHealthUrl = 'http://localhost:8000/health';
   
   static const Duration _healthCheckInterval = Duration(seconds: 30);

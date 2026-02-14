@@ -270,3 +270,102 @@ class AIChatService:
     async def get_session_history(self, session_id: UUID) -> Optional[ChatSession]:
         """Get session with full message history."""
         return self._sessions.get(session_id)
+
+    async def send_message_stream(
+        self,
+        session_id: UUID,
+        text: str,
+        image_data: Optional[str] = None,
+    ):
+        """
+        Stream a message response token-by-token via IntelligenceService.
+        
+        Yields SSE-formatted dicts:
+          {"type": "token", "text": "..."}
+          {"type": "done", "session_id": "...", "latency_ms": ..., "escalated": bool}
+        """
+        if not self.is_available:
+            yield {"type": "error", "message": "AI is not available"}
+            return
+        
+        session = self._sessions.get(session_id)
+        if not session:
+            yield {"type": "error", "message": f"Session not found: {session_id}"}
+            return
+        
+        # 1. Language detection
+        lang_context = self._language_service.detect_language(text, default=session.language.value)
+        detected_lang = lang_context.code
+        session.language = ChatLanguage(detected_lang) if detected_lang in [l.value for l in ChatLanguage] else session.language
+        
+        # 2. Add user message
+        user_message = ChatMessage(
+            role=MessageRole.USER,
+            content=text,
+            image_data=image_data,
+            detected_language=detected_lang,
+        )
+        session.add_message(user_message)
+        
+        # 3. Build prompt
+        conversation_history = self._build_conversation_context(session)
+        system_prompt = PromptBuilder.get_system_prompt(detected_lang)
+        
+        # 4. Stream from IntelligenceService
+        full_text = ""
+        try:
+            async for chunk in self._intelligence_service.generate_chat_response_stream(
+                session_id=session_id,
+                system_prompt=system_prompt,
+                message_history=conversation_history,
+                user_message=text,
+                detected_language=detected_lang,
+            ):
+                if chunk["type"] == "token":
+                    full_text += chunk["text"]
+                    yield chunk
+                elif chunk["type"] == "done":
+                    full_text = chunk.get("full_text", full_text)
+                    latency_ms = chunk["latency_ms"]
+                elif chunk["type"] == "error":
+                    yield chunk
+                    return
+            
+            # 5. Safety check on full response
+            escalated, safety_flags = self._intelligent_safety_check(
+                user_text=text,
+                language=detected_lang,
+            )
+            
+            if escalated:
+                self._intelligence_service.update_context(session_id, crisis_mode=True)
+                crisis_info = self._add_crisis_info("", detected_lang)
+                full_text += crisis_info
+                session.is_crisis_mode = True
+                yield {"type": "token", "text": crisis_info}
+            
+            # 6. Store assistant message in session
+            assistant_message = ChatMessage(
+                role=MessageRole.ASSISTANT,
+                content=full_text,
+                safety_flags=[f.value for f in safety_flags],
+            )
+            session.add_message(assistant_message)
+            
+            if len(text) > 5:
+                self._intelligence_service.update_context(session_id, topic=text[:50])
+            
+            # 7. Send completion event
+            yield {
+                "type": "done",
+                "session_id": str(session_id),
+                "message_id": str(assistant_message.id),
+                "latency_ms": latency_ms,
+                "escalated": escalated,
+                "safety_flags": [f.value for f in safety_flags],
+                "ai_called": True,
+            }
+            
+        except Exception as e:
+            logger.error("Streaming chat failed", session_id=str(session_id), error=str(e))
+            yield {"type": "error", "message": str(e)}

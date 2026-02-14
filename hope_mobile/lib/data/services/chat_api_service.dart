@@ -2,8 +2,10 @@
 /// 
 /// Handles communication with the backend chat API.
 /// All data comes from real Gemini API calls - no mocks.
+/// Supports SSE streaming for real-time responses.
 library;
 
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -12,10 +14,10 @@ class ChatConfig {
   // Production Azure backend
   static const String baseUrl = 'https://hope-api-b3bxa3htdsd3guhc.swedencentral-01.azurewebsites.net/api/v1';
   
-  // For local development, uncomment this:
+  // For local development:
   // static const String baseUrl = 'http://localhost:8000/api/v1';
   
-  static const Duration timeout = Duration(seconds: 10);
+  static const Duration timeout = Duration(seconds: 60);
 }
 
 /// Response from starting a chat session
@@ -165,6 +167,71 @@ class ChatApiService {
         'Failed to get history: ${response.statusCode}',
         response.statusCode,
       );
+    }
+  }
+
+  /// Send a message and stream the response token by token (SSE)
+  ///
+  /// Yields maps like:
+  ///   {"type": "token", "text": "Hello"}
+  ///   {"type": "done", "session_id": "...", "latency_ms": 123, "escalated": false}
+  Stream<Map<String, dynamic>> sendMessageStream({
+    required String sessionId,
+    required String text,
+    String? imageBase64,
+    String language = 'fr',
+  }) async* {
+    final request = http.Request(
+      'POST',
+      Uri.parse('${ChatConfig.baseUrl}/chat/message/stream'),
+    );
+    request.headers['Content-Type'] = 'application/json';
+    request.body = jsonEncode({
+      'session_id': sessionId,
+      'text': text,
+      if (imageBase64 != null) 'image': imageBase64,
+      'language': language,
+    });
+
+    final response = await _client.send(request).timeout(ChatConfig.timeout);
+
+    if (response.statusCode != 200) {
+      final body = await response.stream.bytesToString();
+      if (response.statusCode == 503) {
+        throw ChatServiceUnavailableException('AI chat is not available');
+      } else if (response.statusCode == 404) {
+        throw ChatSessionNotFoundException('Session not found');
+      } else {
+        throw ChatApiException(
+          'Stream failed: ${response.statusCode} $body',
+          response.statusCode,
+        );
+      }
+    }
+
+    // Parse SSE stream
+    String buffer = '';
+    await for (final bytes in response.stream) {
+      buffer += utf8.decode(bytes);
+
+      // SSE events are separated by double newlines
+      while (buffer.contains('\n\n')) {
+        final idx = buffer.indexOf('\n\n');
+        final eventBlock = buffer.substring(0, idx);
+        buffer = buffer.substring(idx + 2);
+
+        for (final line in eventBlock.split('\n')) {
+          if (line.startsWith('data: ')) {
+            final jsonStr = line.substring(6);
+            try {
+              final data = jsonDecode(jsonStr) as Map<String, dynamic>;
+              yield data;
+            } catch (_) {
+              // Skip malformed JSON
+            }
+          }
+        }
+      }
     }
   }
 

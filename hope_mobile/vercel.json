@@ -1,0 +1,12 @@
+{
+    "buildCommand": "git clone https://github.com/flutter/flutter.git -b stable --depth 1 flutter_sdk && flutter_sdk/bin/flutter config --no-analytics && flutter_sdk/bin/flutter pub get && flutter_sdk/bin/flutter build web --release",
+    "installCommand": "echo 'skip'",
+    "outputDirectory": "build/web",
+    "framework": null,
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/index.html"
+        }
+    ]
+}
