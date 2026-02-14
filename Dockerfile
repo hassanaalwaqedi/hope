@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements and install
+# Copy requirements and install (including gunicorn)
 COPY requirements.txt .
 RUN pip wheel --no-cache-dir --no-deps --wheel-dir /app/wheels -r requirements.txt
 
@@ -49,6 +49,9 @@ USER appuser
 # Azure App Service injects PORT env var - default to 8000 for local
 ENV PORT=8000
 
+# Workers = 2 * CPU cores + 1 (auto-detect via --workers flag)
+ENV WEB_CONCURRENCY=4
+
 # Expose port
 EXPOSE 8000
 
@@ -56,5 +59,5 @@ EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
     CMD curl -f http://localhost:${PORT}/health || exit 1
 
-# Run with Uvicorn - use shell form so $PORT is expanded at runtime
-CMD uvicorn hope.main:app --host 0.0.0.0 --port $PORT
+# Run with Gunicorn + UvicornWorker for production multi-process serving
+CMD gunicorn hope.main:app --bind 0.0.0.0:$PORT --worker-class uvicorn.workers.UvicornWorker --workers ${WEB_CONCURRENCY} --timeout 120 --graceful-timeout 30 --access-logfile - --error-logfile -

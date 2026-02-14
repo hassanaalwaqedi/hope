@@ -10,6 +10,8 @@ import 'app_localizations_de.dart';
 import 'app_localizations_en.dart';
 import 'app_localizations_es.dart';
 import 'app_localizations_fr.dart';
+import 'app_localizations_it.dart';
+import 'app_localizations_ko.dart';
 
 // ignore_for_file: type=lint
 
@@ -101,7 +103,9 @@ abstract class AppLocalizations {
     Locale('de'),
     Locale('en'),
     Locale('es'),
-    Locale('fr')
+    Locale('fr'),
+    Locale('it'),
+    Locale('ko')
   ];
 
   /// Application title
@@ -305,7 +309,7 @@ abstract class AppLocalizations {
   /// About section label
   ///
   /// In en, this message translates to:
-  /// **'About HOPE'**
+  /// **'About'**
   String get settingsAbout;
 
   /// Consent screen title
@@ -379,6 +383,552 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Done'**
   String get done;
+
+  /// No description provided for @historyEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No history yet'**
+  String get historyEmptyTitle;
+
+  /// No description provided for @historyEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your conversations will appear here'**
+  String get historyEmptySubtitle;
+
+  /// No description provided for @historyStatsSessions.
+  ///
+  /// In en, this message translates to:
+  /// **'Sessions'**
+  String get historyStatsSessions;
+
+  /// No description provided for @historyStatsTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get historyStatsTotal;
+
+  /// No description provided for @historyStatsIntensity.
+  ///
+  /// In en, this message translates to:
+  /// **'Intensity'**
+  String get historyStatsIntensity;
+
+  /// No description provided for @historyRecent.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Sessions'**
+  String get historyRecent;
+
+  /// No description provided for @historyWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'This Week'**
+  String get historyWeek;
+
+  /// No description provided for @resourcesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Resources'**
+  String get resourcesTitle;
+
+  /// No description provided for @resourcesBannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'In Crisis? Call 3114'**
+  String get resourcesBannerTitle;
+
+  /// No description provided for @resourcesBannerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Free, confidential, 24/7'**
+  String get resourcesBannerSubtitle;
+
+  /// No description provided for @resourcesEmergencyNumbers.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency Numbers'**
+  String get resourcesEmergencyNumbers;
+
+  /// No description provided for @resourcesSupportLines.
+  ///
+  /// In en, this message translates to:
+  /// **'Support Lines'**
+  String get resourcesSupportLines;
+
+  /// No description provided for @resourcesCopingTechniques.
+  ///
+  /// In en, this message translates to:
+  /// **'Coping Techniques'**
+  String get resourcesCopingTechniques;
+
+  /// No description provided for @resourcesInternationalHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'International Help'**
+  String get resourcesInternationalHelp;
+
+  /// No description provided for @resourcesMedicalDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'This app does not replace professional medical advice. In case of emergency, call 112.'**
+  String get resourcesMedicalDisclaimer;
+
+  /// No description provided for @resourceSuicidePrevention.
+  ///
+  /// In en, this message translates to:
+  /// **'Suicide Prevention'**
+  String get resourceSuicidePrevention;
+
+  /// No description provided for @resourceEuropeanEmergency.
+  ///
+  /// In en, this message translates to:
+  /// **'European Emergency'**
+  String get resourceEuropeanEmergency;
+
+  /// No description provided for @resourceMedicalEmergency.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency Medical Services'**
+  String get resourceMedicalEmergency;
+
+  /// No description provided for @resourceSOSFriendship.
+  ///
+  /// In en, this message translates to:
+  /// **'SOS Friendship'**
+  String get resourceSOSFriendship;
+
+  /// No description provided for @resourceYouthHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'Youth Health Line'**
+  String get resourceYouthHealth;
+
+  /// No description provided for @resourceRedCross.
+  ///
+  /// In en, this message translates to:
+  /// **'Red Cross Listening'**
+  String get resourceRedCross;
+
+  /// No description provided for @techniqueBreathing.
+  ///
+  /// In en, this message translates to:
+  /// **'Box Breathing'**
+  String get techniqueBreathing;
+
+  /// No description provided for @techniqueBreathingDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'4-4-4-4 technique for calm'**
+  String get techniqueBreathingDesc;
+
+  /// No description provided for @techniqueGrounding.
+  ///
+  /// In en, this message translates to:
+  /// **'5-4-3-2-1 Grounding'**
+  String get techniqueGrounding;
+
+  /// No description provided for @techniqueGroundingDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Use your senses to ground yourself'**
+  String get techniqueGroundingDesc;
+
+  /// No description provided for @techniqueRelaxation.
+  ///
+  /// In en, this message translates to:
+  /// **'Muscle Relaxation'**
+  String get techniqueRelaxation;
+
+  /// No description provided for @techniqueRelaxationDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Tension-release technique'**
+  String get techniqueRelaxationDesc;
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
+
+  /// No description provided for @settingsProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get settingsProfile;
+
+  /// No description provided for @settingsPanicMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Panic Mode'**
+  String get settingsPanicMode;
+
+  /// No description provided for @settingsAppearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get settingsAppearance;
+
+  /// No description provided for @settingsDataPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Data & Privacy'**
+  String get settingsDataPrivacy;
+
+  /// No description provided for @settingsVoiceGuidance.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice Guidance'**
+  String get settingsVoiceGuidance;
+
+  /// No description provided for @settingsVoiceGuidanceSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Spoken instructions during exercises'**
+  String get settingsVoiceGuidanceSubtitle;
+
+  /// No description provided for @settingsHaptic.
+  ///
+  /// In en, this message translates to:
+  /// **'Haptic Feedback'**
+  String get settingsHaptic;
+
+  /// No description provided for @settingsHapticSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Vibrations during exercises'**
+  String get settingsHapticSubtitle;
+
+  /// No description provided for @settingsBreathingSpeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Breathing Speed'**
+  String get settingsBreathingSpeed;
+
+  /// No description provided for @settingsBreathingSpeedSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust exercise pace'**
+  String get settingsBreathingSpeedSubtitle;
+
+  /// No description provided for @settingsDailyCheckIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Check-in'**
+  String get settingsDailyCheckIn;
+
+  /// No description provided for @settingsDailyCheckInSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Gentle reminder to take care of yourself'**
+  String get settingsDailyCheckInSubtitle;
+
+  /// No description provided for @settingsExportData.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Data'**
+  String get settingsExportData;
+
+  /// No description provided for @settingsExportDataSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Download your history'**
+  String get settingsExportDataSubtitle;
+
+  /// No description provided for @settingsClearData.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear History'**
+  String get settingsClearData;
+
+  /// No description provided for @settingsClearDataSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete all data'**
+  String get settingsClearDataSubtitle;
+
+  /// No description provided for @settingsPrivacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get settingsPrivacyPolicy;
+
+  /// No description provided for @settingsTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Service'**
+  String get settingsTerms;
+
+  /// No description provided for @settingsAboutApp.
+  ///
+  /// In en, this message translates to:
+  /// **'About HOPE'**
+  String get settingsAboutApp;
+
+  /// No description provided for @settingsFeedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Feedback'**
+  String get settingsFeedback;
+
+  /// No description provided for @settingsFeedbackSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Help us improve HOPE'**
+  String get settingsFeedbackSubtitle;
+
+  /// No description provided for @settingsLoginSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Login coming soon'**
+  String get settingsLoginSoon;
+
+  /// No description provided for @settingsExportConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Export your Data'**
+  String get settingsExportConfirm;
+
+  /// No description provided for @settingsClearConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete All Data?'**
+  String get settingsClearConfirm;
+
+  /// No description provided for @settingsFeedbackSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks for your feedback!'**
+  String get settingsFeedbackSuccess;
+
+  /// No description provided for @settingsSpeedSlow.
+  ///
+  /// In en, this message translates to:
+  /// **'Slow'**
+  String get settingsSpeedSlow;
+
+  /// No description provided for @settingsSpeedNormal.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal'**
+  String get settingsSpeedNormal;
+
+  /// No description provided for @settingsSpeedFast.
+  ///
+  /// In en, this message translates to:
+  /// **'Fast'**
+  String get settingsSpeedFast;
+
+  /// No description provided for @settingsThemeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get settingsThemeSystem;
+
+  /// No description provided for @settingsThemeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get settingsThemeLight;
+
+  /// No description provided for @settingsThemeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get settingsThemeDark;
+
+  /// No description provided for @settingsWelcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome'**
+  String get settingsWelcome;
+
+  /// No description provided for @settingsAnonymous.
+  ///
+  /// In en, this message translates to:
+  /// **'Anonymous User'**
+  String get settingsAnonymous;
+
+  /// No description provided for @settingsIrreversible.
+  ///
+  /// In en, this message translates to:
+  /// **'This action is IRREVERSIBLE.'**
+  String get settingsIrreversible;
+
+  /// No description provided for @settingsDeleteAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get settingsDeleteAction;
+
+  /// No description provided for @settingsExportAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get settingsExportAction;
+
+  /// No description provided for @settingsCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get settingsCancel;
+
+  /// No description provided for @crisisFlowTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re not alone'**
+  String get crisisFlowTitle;
+
+  /// No description provided for @crisisFlowOr.
+  ///
+  /// In en, this message translates to:
+  /// **'or'**
+  String get crisisFlowOr;
+
+  /// No description provided for @crisisFlowExercisePrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'If you prefer, we can try calming exercises together.'**
+  String get crisisFlowExercisePrompt;
+
+  /// No description provided for @crisisFlowCompanionNeeded.
+  ///
+  /// In en, this message translates to:
+  /// **'I just need someone to be with me'**
+  String get crisisFlowCompanionNeeded;
+
+  /// No description provided for @homeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your safe space'**
+  String get homeSubtitle;
+
+  /// No description provided for @homeSupportMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You are stronger than you think. We\'re here whenever you need us.'**
+  String get homeSupportMessage;
+
+  /// No description provided for @quickActionBreathe.
+  ///
+  /// In en, this message translates to:
+  /// **'Breathe'**
+  String get quickActionBreathe;
+
+  /// No description provided for @quickActionGrounding.
+  ///
+  /// In en, this message translates to:
+  /// **'Ground'**
+  String get quickActionGrounding;
+
+  /// No description provided for @quickActionCrisisNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Crisis'**
+  String get quickActionCrisisNumber;
+
+  /// No description provided for @crisisSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Professional help is always available'**
+  String get crisisSubtitle;
+
+  /// No description provided for @crisisSuicidePreventionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Suicide Prevention'**
+  String get crisisSuicidePreventionTitle;
+
+  /// No description provided for @crisisSuicidePreventionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'24/7 crisis support line'**
+  String get crisisSuicidePreventionDescription;
+
+  /// No description provided for @crisisEuropeanEmergencyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'European Emergency'**
+  String get crisisEuropeanEmergencyTitle;
+
+  /// No description provided for @crisisEuropeanEmergencyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency services across Europe'**
+  String get crisisEuropeanEmergencyDescription;
+
+  /// No description provided for @crisisSOSFriendshipTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SOS Friendship'**
+  String get crisisSOSFriendshipTitle;
+
+  /// No description provided for @crisisSOSFriendshipDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Listening and support service'**
+  String get crisisSOSFriendshipDescription;
+
+  /// No description provided for @crisisEmergencyDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'HOPE is not a substitute for professional help. If you are in danger, call emergency services.'**
+  String get crisisEmergencyDisclaimer;
+
+  /// No description provided for @chatNoInternet.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection'**
+  String get chatNoInternet;
+
+  /// No description provided for @chatOfflineMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline mode: limited responses'**
+  String get chatOfflineMode;
+
+  /// No description provided for @chatReconnected.
+  ///
+  /// In en, this message translates to:
+  /// **'✓ Connected - full AI responses available'**
+  String get chatReconnected;
+
+  /// No description provided for @chatWelcomeOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello, I\'m here to listen. How are you feeling today?'**
+  String get chatWelcomeOnline;
+
+  /// No description provided for @chatWelcomeOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello, I\'m here to listen. (Offline mode)'**
+  String get chatWelcomeOffline;
+
+  /// No description provided for @chatStreamError.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry, an error occurred. Please try again.'**
+  String get chatStreamError;
+
+  /// No description provided for @chatCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera'**
+  String get chatCamera;
+
+  /// No description provided for @chatGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Gallery'**
+  String get chatGallery;
+
+  /// No description provided for @chatImageReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Image ready'**
+  String get chatImageReady;
 }
 
 class _AppLocalizationsDelegate
@@ -391,8 +941,15 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['ar', 'de', 'en', 'es', 'fr'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>[
+        'ar',
+        'de',
+        'en',
+        'es',
+        'fr',
+        'it',
+        'ko'
+      ].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -411,6 +968,10 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsEs();
     case 'fr':
       return AppLocalizationsFr();
+    case 'it':
+      return AppLocalizationsIt();
+    case 'ko':
+      return AppLocalizationsKo();
   }
 
   throw FlutterError(

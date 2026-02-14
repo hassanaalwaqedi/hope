@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:dio/dio.dart';
+import '../../core/config/app_config.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/theme/hope_icons.dart';
 import '../../panic/bloc/panic_bloc.dart';
@@ -79,12 +80,8 @@ class _CrisisFlowScreenState extends State<CrisisFlowScreen> {
   Future<void> _loadCrisisResources() async {
     try {
       final dio = Dio(BaseOptions(
-        // Production Azure backend
-        baseUrl: 'https://hope-api-b3bxa3htdsd3guhc.swedencentral-01.azurewebsites.net',
-        
-        // For local development, uncomment this:
-        // baseUrl: 'http://10.0.2.2:8000',
-        
+        // Backend URL from centralized config
+        baseUrl: AppConfig.apiBaseUrl,
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 5),
       ));
@@ -167,7 +164,7 @@ class _CrisisFlowScreenState extends State<CrisisFlowScreen> {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  _getLocalizedTitle(l10n),
+                  l10n.crisisFlowTitle,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 28,
@@ -188,8 +185,7 @@ class _CrisisFlowScreenState extends State<CrisisFlowScreen> {
                 ),
                 
                 const SizedBox(height: 32),
-                
-                // Crisis resources from backend
+                                // Crisis resources from backend
                 if (_loading)
                   const Center(
                     child: CircularProgressIndicator(color: Colors.white70),
@@ -232,7 +228,7 @@ class _CrisisFlowScreenState extends State<CrisisFlowScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Text(
-                        _getLocalizedOr(),
+                        l10n.crisisFlowOr,
                         style: TextStyle(color: Colors.white.withOpacity(0.5)),
                       ),
                     ),
@@ -245,7 +241,7 @@ class _CrisisFlowScreenState extends State<CrisisFlowScreen> {
                 // Continue with app option
                 if (widget.config['allowExerciseFallback'] as bool? ?? true) ...[
                   Text(
-                    _getLocalizedExercisePrompt(),
+                    l10n.crisisFlowExercisePrompt,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 14,
@@ -376,54 +372,6 @@ class _CrisisFlowScreenState extends State<CrisisFlowScreen> {
     }
   }
 
-  String _getLocalizedTitle(AppLocalizations l10n) {
-    final locale = Localizations.localeOf(context).languageCode;
-    switch (locale) {
-      case 'fr':
-        return "Tu n'es pas seul(e)";
-      case 'ar':
-        return "أنت لست وحدك";
-      case 'de':
-        return "Du bist nicht allein";
-      case 'es':
-        return "No estás solo/a";
-      default:
-        return "You're not alone";
-    }
-  }
-
-  String _getLocalizedOr() {
-    final locale = Localizations.localeOf(context).languageCode;
-    switch (locale) {
-      case 'fr':
-        return 'ou';
-      case 'ar':
-        return 'أو';
-      case 'de':
-        return 'oder';
-      case 'es':
-        return 'o';
-      default:
-        return 'or';
-    }
-  }
-
-  String _getLocalizedExercisePrompt() {
-    final locale = Localizations.localeOf(context).languageCode;
-    switch (locale) {
-      case 'fr':
-        return "Si tu préfères, nous pouvons essayer des exercices de calme ensemble.";
-      case 'ar':
-        return "إذا كنت تفضل، يمكننا تجربة تمارين الاسترخاء معًا.";
-      case 'de':
-        return "Wenn du möchtest, können wir gemeinsam Entspannungsübungen machen.";
-      case 'es':
-        return "Si lo prefieres, podemos probar ejercicios de relajación juntos.";
-      default:
-        return "If you prefer, we can try calming exercises together.";
-    }
-  }
-
   Widget _buildCrisisCard({
     required IconData icon,
     required String title,
@@ -532,29 +480,13 @@ class _CrisisFlowScreenState extends State<CrisisFlowScreen> {
               ));
             },
             child: Text(
-              _getLocalizedCompanionText(),
+              l10n.crisisFlowCompanionNeeded,
               style: TextStyle(color: Colors.white.withOpacity(0.6)),
             ),
           ),
         ),
       ],
     );
-  }
-
-  String _getLocalizedCompanionText() {
-    final locale = Localizations.localeOf(context).languageCode;
-    switch (locale) {
-      case 'fr':
-        return "J'ai juste besoin que quelqu'un soit avec moi";
-      case 'ar':
-        return "أحتاج فقط أن يكون شخص ما معي";
-      case 'de':
-        return "Ich brauche nur jemanden, der bei mir ist";
-      case 'es':
-        return "Solo necesito que alguien esté conmigo";
-      default:
-        return "I just need someone to be with me";
-    }
   }
 
   Widget _buildExerciseButton({

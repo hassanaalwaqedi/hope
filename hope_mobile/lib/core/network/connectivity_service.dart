@@ -10,6 +10,8 @@ import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
+
+import '../config/app_config.dart';
 import 'package:http/http.dart' as http;
 
 /// Network status levels
@@ -100,11 +102,8 @@ class ConnectivityService {
   // Backend health check timer
   Timer? _healthCheckTimer;
   
-  // Backend URL to check - Production Azure backend
-  static const String _backendHealthUrl = 'https://hope-api-b3bxa3htdsd3guhc.swedencentral-01.azurewebsites.net/health';
-  
-  // For local development:
-  // static const String _backendHealthUrl = 'http://localhost:8000/health';
+  // Backend health check URL - uses centralized AppConfig
+  static String get _backendHealthUrl => AppConfig.healthUrl;
   
   static const Duration _healthCheckInterval = Duration(seconds: 30);
   static const Duration _healthCheckTimeout = Duration(seconds: 5);

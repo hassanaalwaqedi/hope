@@ -5,6 +5,7 @@ User registration, login, and token management.
 Supports anonymous panic session creation.
 """
 
+from datetime import datetime
 from typing import Optional
 from uuid import UUID, uuid4
 
@@ -146,7 +147,7 @@ async def register(
         consent_version="1.0.0",  # Track consent version
         profile={
             "age_confirmed": True,
-            "consent_accepted_at": str(uuid4()),  # Timestamp placeholder
+            "consent_accepted_at": datetime.utcnow().isoformat(),
         },
     )
     

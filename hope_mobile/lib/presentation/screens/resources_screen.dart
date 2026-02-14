@@ -1,18 +1,16 @@
-/// Resources Screen - Real Crisis Resources for France
+/// Resources Screen - Verified Crisis Resources
 /// 
-/// PRODUCTION: All resources are verified French crisis services.
-/// Primary: France | Fallback: International
+/// PRODUCTION: All resources are localized.
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../core/theme/app_theme.dart';
+import '../../l10n/generated/app_localizations.dart';
 
-/// Verified French crisis resource.
+/// Verified crisis resource model.
 class CrisisResource {
   final String name;
-  final String nameEn;
   final String description;
   final String phone;
-  final String? sms;
   final String? url;
   final bool is24h;
   final bool isFree;
@@ -20,10 +18,8 @@ class CrisisResource {
   
   const CrisisResource({
     required this.name,
-    required this.nameEn,
     required this.description,
     required this.phone,
-    this.sms,
     this.url,
     this.is24h = false,
     this.isFree = true,
@@ -31,128 +27,102 @@ class CrisisResource {
   });
 }
 
-/// Verified French crisis resources.
-/// Source: Verified government and established NGO sources.
-class FrenchCrisisResources {
-  static const List<CrisisResource> emergencyNumbers = [
-    CrisisResource(
-      name: 'Numéro National de Prévention du Suicide',
-      nameEn: 'National Suicide Prevention Number',
-      description: 'Ligne nationale gratuite, confidentielle, 24h/24',
-      phone: '3114',
-      is24h: true,
-      isFree: true,
-      icon: Icons.emergency,
-    ),
-    CrisisResource(
-      name: 'Urgences Européennes',
-      nameEn: 'European Emergency',
-      description: 'Numéro d\'urgence européen - Police, Pompiers, SAMU',
-      phone: '112',
-      is24h: true,
-      isFree: true,
-      icon: Icons.local_hospital,
-    ),
-    CrisisResource(
-      name: 'SAMU',
-      nameEn: 'Emergency Medical Services',
-      description: 'Service d\'aide médicale urgente',
-      phone: '15',
-      is24h: true,
-      isFree: true,
-      icon: Icons.medical_services,
-    ),
-  ];
-
-  static const List<CrisisResource> supportLines = [
-    CrisisResource(
-      name: 'SOS Amitié',
-      nameEn: 'SOS Friendship',
-      description: 'Écoute anonyme pour personnes en détresse',
-      phone: '09 72 39 40 50',
-      is24h: true,
-      isFree: true,
-      url: 'https://www.sos-amitie.com',
-      icon: Icons.support_agent,
-    ),
-    CrisisResource(
-      name: 'Fil Santé Jeunes',
-      nameEn: 'Youth Health Line',
-      description: 'Pour les 12-25 ans, anonyme et gratuit',
-      phone: '0 800 235 236',
-      is24h: false,
-      isFree: true,
-      url: 'https://www.filsantejeunes.com',
-      icon: Icons.people,
-    ),
-    CrisisResource(
-      name: 'SOS Suicide Phénix',
-      nameEn: 'SOS Suicide Phoenix',
-      description: 'Association d\'aide aux personnes en détresse',
-      phone: '01 40 44 46 45',
-      is24h: false,
-      isFree: true,
-      url: 'https://www.sos-suicide-phenix.org',
-      icon: Icons.support,
-    ),
-    CrisisResource(
-      name: 'Croix-Rouge Écoute',
-      nameEn: 'Red Cross Listening',
-      description: 'Soutien psychologique par la Croix-Rouge',
-      phone: '0 800 858 858',
-      is24h: false,
-      isFree: true,
-      url: 'https://www.croix-rouge.fr',
-      icon: Icons.health_and_safety,
-    ),
-  ];
-
-  static const List<CrisisResource> internationalFallback = [
-    CrisisResource(
-      name: 'Find A Helpline',
-      nameEn: 'International Helplines',
-      description: 'Trouver une ligne d\'écoute dans votre pays',
-      phone: '',
-      url: 'https://findahelpline.com',
-      icon: Icons.public,
-    ),
-    CrisisResource(
-      name: 'International Association for Suicide Prevention',
-      nameEn: 'IASP Crisis Centers',
-      description: 'Centres de crise internationaux',
-      phone: '',
-      url: 'https://www.iasp.info/resources/Crisis_Centres/',
-      icon: Icons.language,
-    ),
-  ];
-}
-
 class ResourcesScreen extends StatelessWidget {
   const ResourcesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
+    // Define resources here to access l10n
+    final emergencyNumbers = [
+      CrisisResource(
+        name: l10n.resourceSuicidePrevention,
+        description: l10n.resourcesBannerSubtitle,
+        phone: '3114',
+        is24h: true,
+        icon: Icons.emergency,
+      ),
+      CrisisResource(
+        name: l10n.resourceEuropeanEmergency,
+        description: l10n.resourceEuropeanEmergency,
+        phone: '112',
+        is24h: true,
+        icon: Icons.local_hospital,
+      ),
+      CrisisResource(
+        name: l10n.resourceMedicalEmergency,
+        description: l10n.resourceMedicalEmergency,
+        phone: '15',
+        is24h: true,
+        icon: Icons.medical_services,
+      ),
+    ];
+
+    final supportLines = [
+      CrisisResource(
+        name: l10n.resourceSOSFriendship,
+        description: l10n.resourceSOSFriendship,
+        phone: '09 72 39 40 50',
+        is24h: true,
+        url: 'https://www.sos-amitie.com',
+        icon: Icons.support_agent,
+      ),
+      CrisisResource(
+        name: l10n.resourceYouthHealth,
+        description: l10n.resourceYouthHealth,
+        phone: '0 800 235 236',
+        isFree: true,
+        url: 'https://www.filsantejeunes.com',
+        icon: Icons.people,
+      ),
+      CrisisResource(
+        name: l10n.resourceRedCross,
+        description: l10n.resourceRedCross,
+        phone: '0 800 858 858',
+        isFree: true,
+        url: 'https://www.croix-rouge.fr',
+        icon: Icons.health_and_safety,
+      ),
+    ];
+
+    final internationalFallback = [
+      CrisisResource(
+        name: 'Find A Helpline',
+        description: l10n.resourcesInternationalHelp,
+        phone: '',
+        url: 'https://findahelpline.com',
+        icon: Icons.public,
+      ),
+      CrisisResource(
+        name: 'IASP Crisis Centers',
+        description: l10n.resourcesInternationalHelp,
+        phone: '',
+        url: 'https://www.iasp.info/resources/Crisis_Centres/',
+        icon: Icons.language,
+      ),
+    ];
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ressources'),
+        title: Text(l10n.resourcesTitle),
         centerTitle: true,
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
           // Emergency banner
-          _buildEmergencyBanner(context),
+          _buildEmergencyBanner(context, l10n),
           
           const SizedBox(height: 24),
           
           // Emergency numbers
           _buildSection(
             context,
-            title: 'Numéros d\'Urgence',
-            titleEn: 'Emergency Numbers',
+            title: l10n.resourcesEmergencyNumbers,
             icon: Icons.emergency,
-            children: FrenchCrisisResources.emergencyNumbers
-                .map((r) => _buildResourceTile(context, r))
+            children: emergencyNumbers
+                .map((r) => _buildResourceTile(context, r, l10n))
                 .toList(),
           ),
           
@@ -161,39 +131,37 @@ class ResourcesScreen extends StatelessWidget {
           // Support lines
           _buildSection(
             context,
-            title: 'Lignes d\'Écoute',
-            titleEn: 'Support Lines',
+            title: l10n.resourcesSupportLines,
             icon: Icons.phone_in_talk,
-            children: FrenchCrisisResources.supportLines
-                .map((r) => _buildResourceTile(context, r))
+            children: supportLines
+                .map((r) => _buildResourceTile(context, r, l10n))
                 .toList(),
           ),
           
           const SizedBox(height: 24),
           
-          // Coping techniques (real, verified)
+          // Coping techniques
           _buildSection(
             context,
-            title: 'Techniques de Gestion',
-            titleEn: 'Coping Techniques',
+            title: l10n.resourcesCopingTechniques,
             icon: Icons.self_improvement,
             children: [
               _buildTechniqueTile(
                 context,
-                title: 'Respiration Carrée',
-                subtitle: 'Technique 4-4-4-4 pour le calme',
+                title: l10n.techniqueBreathing,
+                subtitle: l10n.techniqueBreathingDesc,
                 icon: Icons.air,
               ),
               _buildTechniqueTile(
                 context,
-                title: 'Ancrage 5-4-3-2-1',
-                subtitle: 'Utilisez vos sens pour vous ancrer',
+                title: l10n.techniqueGrounding,
+                subtitle: l10n.techniqueGroundingDesc,
                 icon: Icons.visibility,
               ),
               _buildTechniqueTile(
                 context,
-                title: 'Relaxation Musculaire',
-                subtitle: 'Technique de tension-relâchement',
+                title: l10n.techniqueRelaxation,
+                subtitle: l10n.techniqueRelaxationDesc,
                 icon: Icons.accessibility_new,
               ),
             ],
@@ -204,11 +172,10 @@ class ResourcesScreen extends StatelessWidget {
           // International fallback
           _buildSection(
             context,
-            title: 'Aide Internationale',
-            titleEn: 'International Help',
+            title: l10n.resourcesInternationalHelp,
             icon: Icons.public,
-            children: FrenchCrisisResources.internationalFallback
-                .map((r) => _buildResourceTile(context, r))
+            children: internationalFallback
+                .map((r) => _buildResourceTile(context, r, l10n))
                 .toList(),
           ),
           
@@ -222,8 +189,7 @@ class ResourcesScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
-              'Cette application ne remplace pas un suivi médical professionnel. '
-              'En cas d\'urgence vitale, appelez le 15 (SAMU) ou le 112.',
+              l10n.resourcesMedicalDisclaimer,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: Colors.grey[600],
               ),
@@ -235,7 +201,7 @@ class ResourcesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildEmergencyBanner(BuildContext context) {
+  Widget _buildEmergencyBanner(BuildContext context, AppLocalizations l10n) {
     return InkWell(
       onTap: () => _callNumber('3114'),
       borderRadius: BorderRadius.circular(12),
@@ -262,7 +228,7 @@ class ResourcesScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'En crise ? Appelez le 3114',
+                    l10n.resourcesBannerTitle,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -270,9 +236,9 @@ class ResourcesScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  const Text(
-                    'Gratuit, confidentiel, 24h/24',
-                    style: TextStyle(fontSize: 13),
+                  Text(
+                    l10n.resourcesBannerSubtitle,
+                    style: const TextStyle(fontSize: 13),
                   ),
                 ],
               ),
@@ -287,7 +253,6 @@ class ResourcesScreen extends StatelessWidget {
   Widget _buildSection(
     BuildContext context, {
     required String title,
-    required String titleEn,
     required IconData icon,
     required List<Widget> children,
   }) {
@@ -312,7 +277,7 @@ class ResourcesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildResourceTile(BuildContext context, CrisisResource resource) {
+  Widget _buildResourceTile(BuildContext context, CrisisResource resource, AppLocalizations l10n) {
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
       child: ListTile(
@@ -352,27 +317,11 @@ class ResourcesScreen extends StatelessWidget {
                         color: AppTheme.calmColor.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(4),
                       ),
-                      child: Text(
-                        '24h/24',
+                      child: const Text(
+                        '24h',
                         style: TextStyle(
                           fontSize: 10,
                           color: AppTheme.calmColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  if (resource.isFree) 
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: Colors.green.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: const Text(
-                        'Gratuit',
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Colors.green,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -437,3 +386,4 @@ class ResourcesScreen extends StatelessWidget {
     }
   }
 }
+

@@ -1,0 +1,18 @@
+﻿Because l10n.yaml exists, the options defined there will be used instead.
+To use the command line arguments, delete the l10n.yaml file in the Flutter project.
+
+
+"ar": 13 untranslated message(s).
+"de": 13 untranslated message(s).
+"es": 82 untranslated message(s).
+"fr": 13 untranslated message(s).
+"it": 13 untranslated message(s).
+"ko": 13 untranslated message(s).
+To see a detailed report, use the untranslated-messages-file 
+option in the l10n.yaml file:
+untranslated-messages-file: desiredFileName.txt
+<other option>: <other selection> 
+
+
+This will generate a JSON format file containing all messages that 
+need to be translated.

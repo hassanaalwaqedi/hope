@@ -63,6 +63,14 @@ class ThemePreferenceChanged extends SettingsEvent {
   List<Object?> get props => [value];
 }
 
+class LanguageChanged extends SettingsEvent {
+  final String languageCode;
+  const LanguageChanged(this.languageCode);
+  
+  @override
+  List<Object?> get props => [languageCode];
+}
+
 class DataExportRequested extends SettingsEvent {
   const DataExportRequested();
 }
@@ -166,6 +174,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<BreathingSpeedChanged>(_onBreathingSpeedChanged);
     on<DailyCheckInToggled>(_onDailyCheckInToggled);
     on<ThemePreferenceChanged>(_onThemePreferenceChanged);
+    on<LanguageChanged>(_onLanguageChanged);
     on<DataExportRequested>(_onDataExportRequested);
     on<DataDeletionRequested>(_onDataDeletionRequested);
     on<PrivacyPolicyAccepted>(_onPrivacyPolicyAccepted);
@@ -254,6 +263,18 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   ) async {
     emit(state.copyWith(status: SettingsStatus.saving));
     await _settingsService.setThemePreference(event.value);
+    emit(state.copyWith(
+      status: SettingsStatus.loaded,
+      settings: _settingsService.settings,
+    ));
+  }
+  
+  Future<void> _onLanguageChanged(
+    LanguageChanged event,
+    Emitter<SettingsState> emit,
+  ) async {
+    emit(state.copyWith(status: SettingsStatus.saving));
+    await _settingsService.setLanguageCode(event.languageCode);
     emit(state.copyWith(
       status: SettingsStatus.loaded,
       settings: _settingsService.settings,

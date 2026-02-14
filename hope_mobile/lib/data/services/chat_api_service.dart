@@ -9,13 +9,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import '../../core/config/app_config.dart';
+
 /// Configuration for the chat API
 class ChatConfig {
-  // Production Azure backend
-  static const String baseUrl = 'https://hope-api-b3bxa3htdsd3guhc.swedencentral-01.azurewebsites.net/api/v1';
-  
-  // For local development:
-  // static const String baseUrl = 'http://localhost:8000/api/v1';
+  /// Base URL for the chat API - uses centralized AppConfig
+  static String get baseUrl => AppConfig.apiV1Url;
   
   static const Duration timeout = Duration(seconds: 60);
 }

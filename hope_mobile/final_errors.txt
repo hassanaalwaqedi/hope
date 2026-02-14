@@ -1,0 +1,110 @@
+﻿
+   info - 'cancelOnError' is deprecated and 
+shouldn't be used. Use 
+SpeechListenOptions.cancelOnError instead - 
+lib\core\voice\voice_stt_service.dart:203:9 - 
+deprecated_member_use
+  error - Undefined name 'l10n' - lib\presentati
+on\screens\settings_screen.dart:63:29 - 
+undefined_identifier
+  error - Undefined name 'AppLocalizations' - li
+b\presentation\screens\settings_screen.dart:85:2
+2 - undefined_identifier
+  error - Undefined name 'AppLocalizations' - li
+b\presentation\screens\settings_screen.dart:340:
+19 - undefined_identifier
+  error - Undefined name 'AppLocalizations' - li
+b\presentation\screens\settings_screen.dart:347:
+19 - undefined_identifier
+  error - Undefined name 'AppLocalizations' - li
+b\presentation\screens\settings_screen.dart:360:
+24 - undefined_identifier
+  error - Undefined name 'AppLocalizations' - li
+b\presentation\screens\settings_screen.dart:364:
+35 - undefined_identifier
+  error - Undefined name 'AppLocalizations' - li
+b\presentation\screens\settings_screen.dart:394:
+13 - undefined_identifier
+  error - Undefined name 'AppLocalizations' - li
+b\presentation\screens\settings_screen.dart:413:
+21 - undefined_identifier
+  error - Undefined name 'AppLocalizations' - li
+b\presentation\screens\settings_screen.dart:433:
+25 - undefined_identifier
+  error - Undefined name 'AppLocalizations' - li
+b\presentation\screens\settings_screen.dart:440:
+25 - undefined_identifier
+  error - Undefined name 'AppLocalizations' - li
+b\presentation\screens\settings_screen.dart:477:
+21 - undefined_identifier
+  error - Undefined name 'AppLocalizations' - li
+b\presentation\screens\settings_screen.dart:481:
+18 - undefined_identifier
+  error - Undefined name 'AppLocalizations' - li
+b\presentation\screens\settings_screen.dart:501:
+25 - undefined_identifier
+  error - Undefined name 'AppLocalizations' - li
+b\presentation\screens\settings_screen.dart:525:
+21 - undefined_identifier
+  error - Undefined name 'AppLocalizations' - li
+b\presentation\screens\settings_screen.dart:552:
+23 - undefined_identifier
+  error - Undefined name 'AppLocalizations' - li
+b\presentation\screens\settings_screen.dart:568:
+25 - undefined_identifier
+  error - Undefined name 'AppLocalizations' - li
+b\presentation\screens\settings_screen.dart:576:
+25 - undefined_identifier
+  error - Undefined name 'AppLocalizations' - li
+b\presentation\screens\settings_screen.dart:652:
+33 - undefined_identifier
+  error - Undefined name 'AppLocalizations' - li
+b\presentation\screens\settings_screen.dart:720:
+21 - undefined_identifier
+  error - Undefined name 'AppLocalizations' - li
+b\presentation\screens\settings_screen.dart:737:
+25 - undefined_identifier
+  error - Undefined name 'AppLocalizations' - li
+b\presentation\screens\settings_screen.dart:744:
+33 - undefined_identifier
+  error - Undefined name 'AppLocalizations' - li
+b\presentation\screens\settings_screen.dart:752:
+25 - undefined_identifier
+  error - Undefined name 'AppLocalizations' - li
+b\presentation\screens\settings_screen.dart:988:
+26 - undefined_identifier
+  error - Undefined name 'AppLocalizations' - li
+b\presentation\screens\settings_screen.dart:989:
+26 - undefined_identifier
+  error - Invalid constant value - lib\presentat
+ion\screens\settings_screen.dart:1001:29 - 
+invalid_constant
+  error - The values in a const list literal 
+must be constants - lib\presentation\screens\set
+tings_screen.dart:1001:29 - 
+non_constant_list_element
+  error - Undefined name 'AppLocalizations' - li
+b\presentation\screens\settings_screen.dart:1001
+:29 - undefined_identifier
+  error - Invalid constant value - lib\presentat
+ion\screens\settings_screen.dart:1006:29 - 
+invalid_constant
+  error - The values in a const list literal 
+must be constants - lib\presentation\screens\set
+tings_screen.dart:1006:29 - 
+non_constant_list_element
+  error - Undefined name 'AppLocalizations' - li
+b\presentation\screens\settings_screen.dart:1006
+:29 - undefined_identifier
+  error - Invalid constant value - lib\presentat
+ion\screens\settings_screen.dart:1011:29 - 
+invalid_constant
+  error - The values in a const list literal 
+must be constants - lib\presentation\screens\set
+tings_screen.dart:1011:29 - 
+non_constant_list_element
+  error - Undefined name 'AppLocalizations' - li
+b\presentation\screens\settings_screen.dart:1011
+:29 - undefined_identifier
+
+

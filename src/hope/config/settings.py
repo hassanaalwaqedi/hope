@@ -7,6 +7,7 @@ All sensitive values are loaded from environment variables.
 SECURITY: Never log or expose settings containing secrets.
 """
 
+import os
 from functools import lru_cache
 from pathlib import Path
 from typing import Literal
@@ -21,13 +22,21 @@ _ENV_FILE = Path(__file__).parent.parent.parent.parent / ".env"
 class DatabaseSettings(BaseSettings):
     """PostgreSQL database configuration."""
     
-    model_config = SettingsConfigDict(env_prefix="HOPE_DB_")
+    model_config = SettingsConfigDict(
+        env_prefix="HOPE_DB_",
+        env_file=str(_ENV_FILE),
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
     
     host: str = Field(default="localhost", description="Database host")
     port: int = Field(default=5432, description="Database port")
     name: str = Field(default="hope_db", description="Database name")
     user: str = Field(default="hope_user", description="Database user")
-    password: SecretStr = Field(default=SecretStr("dev_password"), description="Database password")
+    password: SecretStr = Field(
+        default_factory=lambda: SecretStr(os.environ.get("HOPE_DB_PASSWORD", "")),
+        description="Database password"
+    )
     pool_size: int = Field(default=10, ge=1, le=100, description="Connection pool size")
     max_overflow: int = Field(default=20, ge=0, le=100, description="Max overflow connections")
     
@@ -47,9 +56,17 @@ class DatabaseSettings(BaseSettings):
 class JWTSettings(BaseSettings):
     """JWT authentication configuration."""
     
-    model_config = SettingsConfigDict(env_prefix="HOPE_JWT_")
+    model_config = SettingsConfigDict(
+        env_prefix="HOPE_JWT_",
+        env_file=str(_ENV_FILE),
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
     
-    secret_key: SecretStr = Field(default=SecretStr("dev_jwt_secret_key_not_for_production"), description="JWT signing secret")
+    secret_key: SecretStr = Field(
+        default_factory=lambda: SecretStr(os.environ.get("HOPE_JWT_SECRET_KEY", "")),
+        description="JWT signing secret - REQUIRED in all environments"
+    )
     algorithm: str = Field(default="HS256", description="JWT algorithm")
     access_token_expire_minutes: int = Field(default=30, ge=5, le=1440)
     refresh_token_expire_days: int = Field(default=7, ge=1, le=30)
@@ -58,7 +75,12 @@ class JWTSettings(BaseSettings):
 class OpenAISettings(BaseSettings):
     """OpenAI API configuration."""
     
-    model_config = SettingsConfigDict(env_prefix="HOPE_OPENAI_")
+    model_config = SettingsConfigDict(
+        env_prefix="HOPE_OPENAI_",
+        env_file=str(_ENV_FILE),
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
     
     api_key: SecretStr = Field(default=SecretStr(""), description="OpenAI API key")
     model: str = Field(default="gpt-4-turbo-preview", description="Model identifier")
@@ -83,7 +105,12 @@ class GeminiSettings(BaseSettings):
 class PineconeSettings(BaseSettings):
     """Pinecone vector database configuration."""
     
-    model_config = SettingsConfigDict(env_prefix="HOPE_PINECONE_")
+    model_config = SettingsConfigDict(
+        env_prefix="HOPE_PINECONE_",
+        env_file=str(_ENV_FILE),
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
     
     api_key: SecretStr = Field(default=SecretStr(""), description="Pinecone API key")
     environment: str = Field(default="gcp-starter", description="Pinecone environment")
@@ -93,7 +120,12 @@ class PineconeSettings(BaseSettings):
 class WeaviateSettings(BaseSettings):
     """Weaviate vector database configuration."""
     
-    model_config = SettingsConfigDict(env_prefix="HOPE_WEAVIATE_")
+    model_config = SettingsConfigDict(
+        env_prefix="HOPE_WEAVIATE_",
+        env_file=str(_ENV_FILE),
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
     
     url: str = Field(default="http://localhost:8080", description="Weaviate URL")
     api_key: SecretStr = Field(default=SecretStr(""), description="Weaviate API key")
@@ -102,7 +134,12 @@ class WeaviateSettings(BaseSettings):
 class SafetySettings(BaseSettings):
     """Safety and rate limiting configuration."""
     
-    model_config = SettingsConfigDict(env_prefix="HOPE_")
+    model_config = SettingsConfigDict(
+        env_prefix="HOPE_",
+        env_file=str(_ENV_FILE),
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
     
     rate_limit_requests_per_minute: int = Field(default=60, ge=1, le=1000)
     safety_hard_filter_enabled: bool = Field(default=True)
@@ -140,12 +177,18 @@ class Settings(BaseSettings):
     )
     api_version: str = Field(default="v1", description="API version prefix")
     cors_origins: list[str] = Field(
-        default=["*"],  # Allow all origins in development - Flutter web uses dynamic ports
-        description="Allowed CORS origins"
+        default=[
+            "http://localhost:3000",
+            "http://localhost:8080",
+            "http://localhost:8000",
+            "https://hope-neon-seven.vercel.app",
+            "https://hope-api.azurewebsites.net",
+        ],
+        description="Allowed CORS origins - MUST be explicit domains in production"
     )
     
     # Encryption key for sensitive database fields
-    encryption_key: SecretStr = Field(default=SecretStr("dev_encryption_key_32bytes_here"), description="Field encryption key")
+    encryption_key: SecretStr = Field(description="Field encryption key - REQUIRED in all environments")
     
     # LLM Provider selection
     llm_primary_provider: Literal["openai", "gemini", "gemini_flash"] = Field(
@@ -170,8 +213,18 @@ class Settings(BaseSettings):
     @classmethod
     def validate_debug_in_production(cls, v: bool, info) -> bool:
         """Ensure debug is never enabled in production."""
-        # Note: info.data may not have 'env' at this point during validation
-        # This is a safety check that should be enforced at deployment level
+        return v
+    
+    @field_validator("cors_origins", mode="after")
+    @classmethod
+    def validate_cors_origins(cls, v: list[str], info) -> list[str]:
+        """Reject wildcard CORS in production."""
+        env = info.data.get("env", "development")
+        if env == "production" and "*" in v:
+            raise ValueError(
+                "CORS wildcard '*' is not allowed in production. "
+                "Set HOPE_CORS_ORIGINS to explicit domains."
+            )
         return v
     
     def is_production(self) -> bool:

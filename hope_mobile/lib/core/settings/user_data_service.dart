@@ -10,6 +10,8 @@ import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../config/app_config.dart';
+
 /// Result of data export operation
 class DataExportResult {
   final bool success;
@@ -47,11 +49,8 @@ class DataDeletionResult {
 /// - Data deletion (right to erasure)
 /// - Local + backend data handling
 class UserDataService {
-  // Production Azure backend
-  static const _backendUrl = 'https://hope-api-b3bxa3htdsd3guhc.swedencentral-01.azurewebsites.net';
-  
-  // For local development, uncomment this:
-  // static const _backendUrl = 'http://10.0.2.2:8000';
+  // Backend URL - uses centralized AppConfig
+  static String get _backendUrl => AppConfig.apiBaseUrl;
   
   String? _authToken;
   

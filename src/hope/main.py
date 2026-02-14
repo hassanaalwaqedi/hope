@@ -16,7 +16,9 @@ from typing import AsyncGenerator
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import JSONResponse
+from starlette.middleware.base import BaseHTTPMiddleware
 
 from hope.config import get_settings
 from hope.config.logging_config import configure_logging, get_logger
@@ -24,6 +26,7 @@ from hope.infrastructure.database import get_db_manager
 from hope.services.orchestration.response_orchestrator import ResponseOrchestrator
 from hope.api.v1.router import api_router
 from hope.api.middleware.error_handler import ErrorHandlerMiddleware
+from hope.api.middleware.rate_limiter import RateLimitMiddleware, RateLimitConfig
 
 # Initialize settings and logging
 settings = get_settings()
@@ -32,6 +35,22 @@ logger = get_logger(__name__)
 
 # Global orchestrator instance (initialized during startup)
 _orchestrator: ResponseOrchestrator | None = None
+
+
+class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+    """Add security headers to all responses."""
+    
+    async def dispatch(self, request: Request, call_next):
+        response = await call_next(request)
+        response.headers["X-Frame-Options"] = "DENY"
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["Referrer-Policy"] = "no-referrer"
+        response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
+        response.headers["X-XSS-Protection"] = "1; mode=block"
+        if settings.is_production():
+            response.headers["Strict-Transport-Security"] = "max-age=63072000; includeSubDomains; preload"
+            response.headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"
+        return response
 
 
 def get_orchestrator() -> ResponseOrchestrator:
@@ -131,20 +150,38 @@ def create_application() -> FastAPI:
         version="0.1.0",
         docs_url="/docs" if not settings.is_production() else None,
         redoc_url="/redoc" if not settings.is_production() else None,
+        openapi_url="/openapi.json" if not settings.is_production() else None,
         lifespan=lifespan,
     )
     
-    # Add CORS middleware
-    # For development, allow all origins (credentials disabled for wildcard compatibility)
+    # --- Middleware stack (order matters: last added = first executed) ---
+    
+    # GZip compression
+    app.add_middleware(GZipMiddleware, minimum_size=500)
+    
+    # CORS — uses settings, no wildcard in production
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"],  # Allow all for dev - Flutter web uses dynamic ports
-        allow_credentials=False,  # Must be False when using wildcard "*"
-        allow_methods=["*"],
+        allow_origins=settings.cors_origins,
+        allow_credentials="*" not in settings.cors_origins,
+        allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         allow_headers=["*"],
     )
     
-    # Add error handling middleware
+    # Rate limiting
+    app.add_middleware(
+        RateLimitMiddleware,
+        config=RateLimitConfig(
+            requests_per_minute=settings.safety.rate_limit_requests_per_minute,
+            panic_requests_per_minute=120,
+            burst_size=10,
+        ),
+    )
+    
+    # Security headers
+    app.add_middleware(SecurityHeadersMiddleware)
+    
+    # Error handling
     app.add_middleware(ErrorHandlerMiddleware)
     
     # Register API routers

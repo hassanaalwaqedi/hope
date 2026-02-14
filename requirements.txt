@@ -32,3 +32,6 @@ langdetect>=1.0.9
 
 # Monitoring
 sentry-sdk[fastapi]>=1.40.0
+
+# Production WSGI Server
+gunicorn>=21.2.0

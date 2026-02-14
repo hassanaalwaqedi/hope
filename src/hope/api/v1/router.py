@@ -12,7 +12,6 @@ from hope.api.v1.endpoints.session import router as session_router
 from hope.api.v1.endpoints.chat import router as chat_router
 from hope.api.v1.endpoints.breathing import router as breathing_router
 from hope.api.v1.endpoints.resources import router as resources_router
-from hope.api.v1.endpoints.ai_status import router as ai_status_router
 from hope.api.v1.endpoints.consent import router as consent_router
 from hope.api.v1.endpoints.voice import router as voice_router
 from hope.api.v1.endpoints.user import router as user_router
@@ -64,11 +63,18 @@ api_router.include_router(
     tags=["Resources"],
 )
 
-api_router.include_router(
-    ai_status_router,
-    prefix="/debug",
-    tags=["Debug"],
-)
+from hope.config import get_settings as _get_router_settings
+
+_router_settings = _get_router_settings()
+
+# Debug endpoints - only available in non-production
+if not _router_settings.is_production():
+    from hope.api.v1.endpoints.ai_status import router as ai_status_router
+    api_router.include_router(
+        ai_status_router,
+        prefix="/debug",
+        tags=["Debug"],
+    )
 
 # Voice AI endpoints
 api_router.include_router(

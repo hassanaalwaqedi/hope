@@ -14,9 +14,12 @@ import json
 from typing import Optional
 from uuid import UUID
 
-from fastapi import APIRouter, HTTPException, UploadFile, File, Form
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
+
+from hope.api.auth.dependencies import get_token_data_optional
+from hope.api.auth.service import TokenData
 
 from hope.config.logging_config import get_logger
 from hope.services.chat.ai_chat_service import AIChatService
@@ -93,7 +96,10 @@ class SessionHistoryResponse(BaseModel):
 # ============================================================================
 
 @router.post("/session/start", response_model=StartSessionResponse)
-async def start_chat_session(request: StartSessionRequest) -> StartSessionResponse:
+async def start_chat_session(
+    request: StartSessionRequest,
+    _token: Optional[TokenData] = Depends(get_token_data_optional),
+) -> StartSessionResponse:
     """
     Start a new chat session.
     
@@ -121,7 +127,10 @@ async def start_chat_session(request: StartSessionRequest) -> StartSessionRespon
 
 
 @router.post("/message", response_model=SendMessageResponse)
-async def send_chat_message(request: SendMessageRequest) -> SendMessageResponse:
+async def send_chat_message(
+    request: SendMessageRequest,
+    _token: Optional[TokenData] = Depends(get_token_data_optional),
+) -> SendMessageResponse:
     """
     Send a message to the AI chatbot.
     
@@ -182,7 +191,10 @@ async def send_chat_message(request: SendMessageRequest) -> SendMessageResponse:
 
 
 @router.post("/message/stream")
-async def stream_chat_message(request: SendMessageRequest):
+async def stream_chat_message(
+    request: SendMessageRequest,
+    _token: Optional[TokenData] = Depends(get_token_data_optional),
+):
     """
     Stream a chat message response via Server-Sent Events (SSE).
     
@@ -237,7 +249,10 @@ async def stream_chat_message(request: SendMessageRequest):
 
 
 @router.get("/history/{session_id}", response_model=SessionHistoryResponse)
-async def get_chat_history(session_id: str) -> SessionHistoryResponse:
+async def get_chat_history(
+    session_id: str,
+    _token: Optional[TokenData] = Depends(get_token_data_optional),
+) -> SessionHistoryResponse:
     """
     Get chat session history.
     

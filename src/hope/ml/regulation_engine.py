@@ -37,7 +37,7 @@ class RegulationEngine:
             current_intensity=8,
             language="en"
         ))
-        print(response.next_state)  # ClientState.PANIC_MODE
+        # response.next_state -> ClientState.PANIC_MODE
     """
 
     # Panic keywords for English and Arabic

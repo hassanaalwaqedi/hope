@@ -79,6 +79,16 @@ async def readiness_check() -> ReadinessResponse:
     except Exception:
         components["database"] = False
     
+    # Check Gemini API key presence
+    try:
+        from hope.config import get_settings
+        _settings = get_settings()
+        components["gemini_api_key_set"] = bool(
+            _settings.gemini_api_key and _settings.gemini_api_key.get_secret_value()
+        )
+    except Exception:
+        components["gemini_api_key_set"] = False
+    
     # Check orchestrator/LLM - import inside function to avoid circular import
     try:
         from hope.main import get_orchestrator

@@ -21,6 +21,7 @@ import '../../core/theme/app_theme.dart';
 import '../../core/theme/hope_icons.dart';
 import '../../core/network/connectivity_service.dart';
 import '../../data/services/chat_api_service.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 /// Message model for display
 class ChatDisplayMessage {
@@ -539,6 +540,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
 
   void _showCrisisDialog() {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!;
     
     showDialog(
       context: context,
@@ -554,40 +556,24 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
               color: HopeColors.coral,
             ),
             const SizedBox(width: HopeSpacing.sm),
-            Text(_language == 'fr' ? 'Ressources d\'aide' : 'Help Resources'),
+            Text(l10n.crisisTitle),
           ],
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              _language == 'fr'
-                  ? 'Je vois que tu traverses un moment difficile. Des professionnels sont là pour t\'aider:'
-                  : 'I see you\'re going through a difficult time. Professionals are here to help:',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-            const SizedBox(height: HopeSpacing.md),
-            if (_language == 'fr') ...[
-              _buildCrisisLine('3114', 'Prévention du suicide (24h/24)'),
-              _buildCrisisLine('112', 'Urgences européennes'),
-              _buildCrisisLine('15', 'SAMU'),
-            ] else ...[
-              _buildCrisisLine('112', 'European Emergency'),
-              _buildCrisisLine('', 'Contact your local crisis line'),
-            ],
+            Text(l10n.aiOnlyDisclaimer),
+            const SizedBox(height: 16),
+            _buildCrisisLine("112", l10n.crisisEmergency("112")),
+            const Divider(),
+            _buildCrisisLine("3114", "Suicide Prevention"),
           ],
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(
-              _language == 'fr' ? 'Compris' : 'Understood',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.primary,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(l10n.cancel),
           ),
         ],
       ),
@@ -633,6 +619,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     
     return Scaffold(
@@ -1087,6 +1074,7 @@ class _ChatInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!;
     
     return Container(
       padding: const EdgeInsets.all(HopeSpacing.md),
@@ -1124,9 +1112,7 @@ class _ChatInput extends StatelessWidget {
                   enabled: enabled,
                   textCapitalization: TextCapitalization.sentences,
                   decoration: InputDecoration(
-                    hintText: language == 'fr'
-                        ? 'Écris ton message...'
-                        : 'Type your message...',
+                    hintText: l10n.chatInputHint,
                     border: InputBorder.none,
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: HopeSpacing.md,

@@ -1,0 +1,291 @@
+﻿Analyzing hope_mobile...                                        
+
+   info - Dangling library doc comment - lib\core\di\service_locator.dart:1:1 - dangling_library_doc_comments
+   info - Dangling library doc comment - lib\core\network\connectivity_service.dart:1:1 - dangling_library_doc_comments
+   info - Dangling library doc comment - lib\core\settings\legal_documents.dart:1:1 - dangling_library_doc_comments
+   info - Dangling library doc comment - lib\core\settings\settings_bloc.dart:1:1 - dangling_library_doc_comments
+warning - The member 'emit' can only be used within 'package:bloc/src/bloc.dart' or a test - lib\core\settings\settings_bloc.dart:187:9 - invalid_use_of_visible_for_testing_member
+   info - Dangling library doc comment - lib\core\settings\settings_service.dart:1:1 - dangling_library_doc_comments
+   info - Dangling library doc comment - lib\core\settings\user_data_service.dart:1:1 - dangling_library_doc_comments
+   info - Use 'const' with the constructor to improve performance - lib\core\settings\user_data_service.dart:191:18 - prefer_const_constructors
+   info - Dangling library doc comment - lib\core\theme\app_theme.dart:1:1 - dangling_library_doc_comments
+   info - Use 'const' with the constructor to improve performance - lib\core\theme\app_theme.dart:100:37 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\theme\app_theme.dart:304:27 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\theme\app_theme.dart:312:27 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\theme\app_theme.dart:320:27 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\theme\app_theme.dart:328:20 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\theme\app_theme.dart:501:44 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\theme\app_theme.dart:573:37 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\theme\app_theme.dart:735:44 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\theme\app_theme.dart:807:42 - deprecated_member_use
+   info - Dangling library doc comment - lib\core\theme\hope_icons.dart:1:1 - dangling_library_doc_comments
+warning - Unused import: 'app_theme.dart' - lib\core\theme\hope_icons.dart:13:8 - unused_import
+   info - Dangling library doc comment - lib\core\voice\audio_features.dart:1:1 - dangling_library_doc_comments
+   info - Dangling library doc comment - lib\core\voice\audio_session_service.dart:1:1 - dangling_library_doc_comments
+   info - Dangling library doc comment - lib\core\voice\bloc\voice_panic_bloc.dart:1:1 - dangling_library_doc_comments
+warning - Unused import: '../../../l10n/generated/app_localizations.dart' - lib\core\voice\bloc\voice_panic_bloc.dart:14:8 - unused_import
+warning - The member 'emit' can only be used within 'package:bloc/src/bloc.dart' or a test - lib\core\voice\bloc\voice_panic_bloc.dart:221:7 - invalid_use_of_visible_for_testing_member
+warning - The member 'emit' can only be used within 'package:bloc/src/bloc.dart' or a test - lib\core\voice\bloc\voice_panic_bloc.dart:227:7 - invalid_use_of_visible_for_testing_member
+   info - Unnecessary 'this.' qualifier - lib\core\voice\bloc\voice_panic_bloc.dart:227:12 - unnecessary_this
+warning - The member 'emit' can only be used within 'package:bloc/src/bloc.dart' or a test - lib\core\voice\bloc\voice_panic_bloc.dart:231:7 - invalid_use_of_visible_for_testing_member
+   info - Unnecessary 'this.' qualifier - lib\core\voice\bloc\voice_panic_bloc.dart:231:12 - unnecessary_this
+warning - The member 'emit' can only be used within 'package:bloc/src/bloc.dart' or a test - lib\core\voice\bloc\voice_panic_bloc.dart:238:7 - invalid_use_of_visible_for_testing_member
+warning - The member 'emit' can only be used within 'package:bloc/src/bloc.dart' or a test - lib\core\voice\bloc\voice_panic_bloc.dart:245:7 - invalid_use_of_visible_for_testing_member
+   info - Unnecessary 'this.' qualifier - lib\core\voice\bloc\voice_panic_bloc.dart:245:12 - unnecessary_this
+   info - Dangling library doc comment - lib\core\voice\breathing_detector.dart:1:1 - dangling_library_doc_comments
+warning - Unused import: 'dart:async' - lib\core\voice\breathing_detector.dart:19:8 - unused_import
+warning - Unused import: 'package:flutter/foundation.dart' - lib\core\voice\breathing_detector.dart:21:8 - unused_import
+warning - The value of the field '_analysisWindow' isn't used - lib\core\voice\breathing_detector.dart:129:18 - unused_field
+   info - Dangling library doc comment - lib\core\voice\distress_detector.dart:1:1 - dangling_library_doc_comments
+warning - Unused import: 'package:flutter/foundation.dart' - lib\core\voice\distress_detector.dart:11:8 - unused_import
+   info - Dangling library doc comment - lib\core\voice\non_verbal_panic_detector.dart:1:1 - dangling_library_doc_comments
+warning - Unused import: 'dart:async' - lib\core\voice\non_verbal_panic_detector.dart:16:8 - unused_import
+warning - Unused import: 'audio_features.dart' - lib\core\voice\non_verbal_panic_detector.dart:22:8 - unused_import
+   info - Dangling library doc comment - lib\core\voice\panic_score_calculator.dart:1:1 - dangling_library_doc_comments
+warning - Unused import: 'dart:async' - lib\core\voice\panic_score_calculator.dart:21:8 - unused_import
+warning - Unused import: 'audio_features.dart' - lib\core\voice\panic_score_calculator.dart:26:8 - unused_import
+   info - Dangling library doc comment - lib\core\voice\voice_permission_service.dart:1:1 - dangling_library_doc_comments
+warning - The value of the field '_hasChecked' isn't used - lib\core\voice\voice_permission_service.dart:61:8 - unused_field
+   info - Dangling library doc comment - lib\core\voice\voice_services.dart:1:1 - dangling_library_doc_comments
+   info - Dangling library doc comment - lib\core\voice\voice_stt_service.dart:1:1 - dangling_library_doc_comments
+   info - 'cancelOnError' is deprecated and shouldn't be used. Use SpeechListenOptions.cancelOnError instead - lib\core\voice\voice_stt_service.dart:203:9 - deprecated_member_use
+   info - 'partialResults' is deprecated and shouldn't be used. Use SpeechListenOptions.partialResults instead - lib\core\voice\voice_stt_service.dart:204:9 - deprecated_member_use
+   info - Dangling library doc comment - lib\core\voice\voice_tts_service.dart:1:1 - dangling_library_doc_comments
+   info - The private field _currentLanguage could be 'final' - lib\core\voice\voice_tts_service.dart:34:10 - prefer_final_fields
+warning - The value of the field '_currentLanguage' isn't used - lib\core\voice\voice_tts_service.dart:34:10 - unused_field
+warning - The value of the field '_availableVoices' isn't used - lib\core\voice\voice_tts_service.dart:36:18 - unused_field
+warning - The value of the field '_availableLanguages' isn't used - lib\core\voice\voice_tts_service.dart:37:18 - unused_field
+warning - The value of the field '_speechQueue' isn't used - lib\core\voice\voice_tts_service.dart:40:22 - unused_field
+   info - The private field _isProcessingQueue could be 'final' - lib\core\voice\voice_tts_service.dart:41:8 - prefer_final_fields
+warning - The value of the field '_isProcessingQueue' isn't used - lib\core\voice\voice_tts_service.dart:41:8 - unused_field
+   info - Dangling library doc comment - lib\data\services\websocket_service.dart:1:1 - dangling_library_doc_comments
+warning - Unused import: 'package:connectivity_plus/connectivity_plus.dart' - lib\data\services\websocket_service.dart:5:8 - unused_import
+   info - Dangling library doc comment - lib\main.dart:1:1 - dangling_library_doc_comments
+   info - Dangling library doc comment - lib\panic\bloc\panic_bloc.dart:1:1 - dangling_library_doc_comments
+warning - The value of the field '_classifier' isn't used - lib\panic\bloc\panic_bloc.dart:116:32 - unused_field
+   info - Dangling library doc comment - lib\panic\panic_state.dart:1:1 - dangling_library_doc_comments
+   info - Dangling library doc comment - lib\panic\ux\panic_analytics.dart:1:1 - dangling_library_doc_comments
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\panic\ux\panic_analytics.dart:236:13 - prefer_const_literals_to_create_immutables
+   info - Dangling library doc comment - lib\panic\ux\panic_entry_router.dart:1:1 - dangling_library_doc_comments
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\panic\ux\panic_entry_router.dart:112:15 - prefer_const_literals_to_create_immutables
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\panic\ux\panic_entry_router.dart:126:19 - prefer_const_literals_to_create_immutables
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\panic\ux\panic_entry_router.dart:140:19 - prefer_const_literals_to_create_immutables
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\panic\ux\panic_entry_router.dart:155:19 - prefer_const_literals_to_create_immutables
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\panic\ux\panic_entry_router.dart:167:19 - prefer_const_literals_to_create_immutables
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\panic\ux\panic_entry_router.dart:211:17 - prefer_const_literals_to_create_immutables
+   info - Dangling library doc comment - lib\panic\ux\panic_state_classifier.dart:1:1 - dangling_library_doc_comments
+   info - The constant name 'MILD_PANIC' isn't a lowerCamelCase identifier - lib\panic\ux\panic_state_classifier.dart:18:3 - constant_identifier_names
+   info - The constant name 'MODERATE_PANIC' isn't a lowerCamelCase identifier - lib\panic\ux\panic_state_classifier.dart:19:3 - constant_identifier_names
+   info - The constant name 'SEVERE_PANIC' isn't a lowerCamelCase identifier - lib\panic\ux\panic_state_classifier.dart:20:3 - constant_identifier_names
+   info - The constant name 'CRITICAL_PANIC' isn't a lowerCamelCase identifier - lib\panic\ux\panic_state_classifier.dart:21:3 - constant_identifier_names
+warning - The value of the field '_moderateIntensityThreshold' isn't used - lib\panic\ux\panic_state_classifier.dart:93:23 - unused_field
+   info - Dangling library doc comment - lib\presentation\screens\chat_screen.dart:1:1 - dangling_library_doc_comments
+   info - The private field _messages could be 'final' - lib\presentation\screens\chat_screen.dart:59:28 - prefer_final_fields
+   info - Don't use 'BuildContext's across async gaps - lib\presentation\screens\chat_screen.dart:396:28 - use_build_context_synchronously
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\chat_screen.dart:505:46 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\chat_screen.dart:508:28 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\chat_screen.dart:521:46 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\chat_screen.dart:524:28 - prefer_const_constructors
+  error - The argument type 'Object' can't be assigned to the parameter type 'String'.  - lib\presentation\screens\chat_screen.dart:566:15 - argument_type_not_assignable
+  error - Expected to find ':' - lib\presentation\screens\chat_screen.dart:568:13 - expected_token
+  error - Undefined name 'l10n' - lib\presentation\screens\chat_screen.dart:568:18 - undefined_identifier
+  error - Too many positional arguments: 1 expected, but 5 found - lib\presentation\screens\chat_screen.dart:569:13 - extra_positional_arguments_could_be_named
+  error - Undefined name 'l10n' - lib\presentation\screens\chat_screen.dart:570:37 - undefined_identifier
+  error - Expected to find ')' - lib\presentation\screens\chat_screen.dart:573:11 - expected_token
+  error - Undefined name 'l10n' - lib\presentation\screens\chat_screen.dart:578:25 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\chat_screen.dart:597:43 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\chat_screen.dart:602:24 - prefer_const_constructors
+warning - The value of the local variable 'l10n' isn't used - lib\presentation\screens\chat_screen.dart:624:11 - unused_local_variable
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\chat_screen.dart:637:62 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\chat_screen.dart:699:39 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\chat_screen.dart:702:19 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\chat_screen.dart:707:30 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\chat_screen.dart:768:27 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\chat_screen.dart:832:62 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\chat_screen.dart:856:44 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\chat_screen.dart:967:60 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\chat_screen.dart:1008:30 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\chat_screen.dart:1040:58 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\chat_screen.dart:1047:64 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\chat_screen.dart:1087:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\chat_screen.dart:1179:61 - deprecated_member_use
+   info - Dangling library doc comment - lib\presentation\screens\crisis_flow_screen.dart:1:1 - dangling_library_doc_comments
+warning - The value of the field '_countryName' isn't used - lib\presentation\screens\crisis_flow_screen.dart:66:10 - unused_field
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\crisis_flow_screen.dart:182:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\crisis_flow_screen.dart:227:65 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\crisis_flow_screen.dart:232:62 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\crisis_flow_screen.dart:235:65 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\crisis_flow_screen.dart:248:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\crisis_flow_screen.dart:261:64 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\crisis_flow_screen.dart:278:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\crisis_flow_screen.dart:286:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\crisis_flow_screen.dart:303:30 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\crisis_flow_screen.dart:305:49 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\crisis_flow_screen.dart:335:27 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\crisis_flow_screen.dart:384:34 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\crisis_flow_screen.dart:385:26 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\crisis_flow_screen.dart:404:38 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\crisis_flow_screen.dart:431:44 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\crisis_flow_screen.dart:432:44 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\crisis_flow_screen.dart:440:62 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\crisis_flow_screen.dart:484:52 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\crisis_flow_screen.dart:502:46 - deprecated_member_use
+   info - Dangling library doc comment - lib\presentation\screens\history_screen.dart:1:1 - dangling_library_doc_comments
+warning - The value of the local variable 'l10n' isn't used - lib\presentation\screens\history_screen.dart:13:11 - unused_local_variable
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\history_screen.dart:25:62 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\history_screen.dart:36:66 - deprecated_member_use
+   info - Dangling library doc comment - lib\presentation\screens\hold_reassurance_screen.dart:1:1 - dangling_library_doc_comments
+warning - Unused import: '../../panic/panic_state.dart' - lib\presentation\screens\hold_reassurance_screen.dart:17:8 - unused_import
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\hold_reassurance_screen.dart:137:49 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\hold_reassurance_screen.dart:174:47 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\hold_reassurance_screen.dart:198:68 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\hold_reassurance_screen.dart:214:65 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\hold_reassurance_screen.dart:254:37 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\hold_reassurance_screen.dart:322:52 - deprecated_member_use
+   info - Dangling library doc comment - lib\presentation\screens\home_screen.dart:1:1 - dangling_library_doc_comments
+warning - Duplicate import - lib\presentation\screens\home_screen.dart:22:8 - duplicate_import
+  error - 2 positional arguments expected by '_buildHeader', but 1 found - lib\presentation\screens\home_screen.dart:76:43 - not_enough_positional_arguments
+  error - The named parameter 'l10n' is required, but there's no corresponding argument - lib\presentation\screens\home_screen.dart:81:29 - missing_required_argument
+  error - 3 positional arguments expected by '_buildSupportMessage', but 2 found - lib\presentation\screens\home_screen.dart:86:59 - not_enough_positional_arguments
+  error - 3 positional arguments expected by '_buildQuickResources', but 2 found - lib\presentation\screens\home_screen.dart:91:59 - not_enough_positional_arguments
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\home_screen.dart:119:24 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\home_screen.dart:132:24 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\home_screen.dart:145:24 - deprecated_member_use
+  error - The getter 'homeSubtitle' isn't defined for the type 'AppLocalizations' - lib\presentation\screens\home_screen.dart:168:16 - undefined_getter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\home_screen.dart:170:64 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\home_screen.dart:186:14 - deprecated_member_use
+  error - The getter 'homeSupportMessage' isn't defined for the type 'AppLocalizations' - lib\presentation\screens\home_screen.dart:194:14 - undefined_getter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\home_screen.dart:198:62 - deprecated_member_use
+  error - The getter 'quickActionBreathe' isn't defined for the type 'AppLocalizations' - lib\presentation\screens\home_screen.dart:217:25 - undefined_getter
+  error - The getter 'quickActionGrounding' isn't defined for the type 'AppLocalizations' - lib\presentation\screens\home_screen.dart:226:25 - undefined_getter
+  error - The getter 'quickActionCrisisNumber' isn't defined for the type 'AppLocalizations' - lib\presentation\screens\home_screen.dart:235:25 - undefined_getter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\home_screen.dart:334:34 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\home_screen.dart:341:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\home_screen.dart:347:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\home_screen.dart:360:43 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\home_screen.dart:367:30 - prefer_const_constructors
+  error - The getter 'crisisSubtitle' isn't defined for the type 'AppLocalizations' - lib\presentation\screens\home_screen.dart:507:22 - undefined_getter
+  error - The getter 'crisisSuicidePreventionTitle' isn't defined for the type 'AppLocalizations' - lib\presentation\screens\home_screen.dart:514:29 - undefined_getter
+  error - The getter 'crisisSuicidePreventionDescription' isn't defined for the type 'AppLocalizations' - lib\presentation\screens\home_screen.dart:516:35 - undefined_getter
+  error - The getter 'crisisEuropeanEmergencyTitle' isn't defined for the type 'AppLocalizations' - lib\presentation\screens\home_screen.dart:521:29 - undefined_getter
+  error - The getter 'crisisEuropeanEmergencyDescription' isn't defined for the type 'AppLocalizations' - lib\presentation\screens\home_screen.dart:523:35 - undefined_getter
+  error - The getter 'crisisSOSFriendshipTitle' isn't defined for the type 'AppLocalizations' - lib\presentation\screens\home_screen.dart:527:29 - undefined_getter
+  error - The getter 'crisisSOSFriendshipDescription' isn't defined for the type 'AppLocalizations' - lib\presentation\screens\home_screen.dart:529:35 - undefined_getter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\home_screen.dart:539:24 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\home_screen.dart:543:26 - deprecated_member_use
+  error - The getter 'crisisEmergencyDisclaimer' isn't defined for the type 'AppLocalizations' - lib\presentation\screens\home_screen.dart:556:30 - undefined_getter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\home_screen.dart:612:22 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\home_screen.dart:618:26 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\home_screen.dart:630:24 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\home_screen.dart:665:24 - deprecated_member_use
+   info - Dangling library doc comment - lib\presentation\screens\panic_active_screen.dart:1:1 - dangling_library_doc_comments
+   info - The import of 'package:flutter/services.dart' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart' - lib\presentation\screens\panic_active_screen.dart:7:8 - unnecessary_import
+warning - Unused import: '../../panic/ux/panic_entry_router.dart' - lib\presentation\screens\panic_active_screen.dart:11:8 - unused_import
+warning - Unused import: '../../core/theme/app_theme.dart' - lib\presentation\screens\panic_active_screen.dart:12:8 - unused_import
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\panic_active_screen.dart:108:34 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\panic_active_screen.dart:118:39 - deprecated_member_use
+   info - Dangling library doc comment - lib\presentation\screens\resources_screen.dart:1:1 - dangling_library_doc_comments
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\resources_screen.dart:188:34 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\resources_screen.dart:211:39 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\resources_screen.dart:213:58 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\resources_screen.dart:219:27 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\resources_screen.dart:232:28 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\resources_screen.dart:246:13 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\resources_screen.dart:286:38 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\resources_screen.dart:287:38 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\resources_screen.dart:308:28 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\resources_screen.dart:317:51 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\resources_screen.dart:361:49 - deprecated_member_use
+   info - Dangling library doc comment - lib\presentation\screens\settings_screen.dart:1:1 - dangling_library_doc_comments
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\settings_screen.dart:282:39 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\settings_screen.dart:283:34 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\settings_screen.dart:350:63 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\settings_screen.dart:353:35 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\settings_screen.dart:358:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\settings_screen.dart:444:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\settings_screen.dart:492:15 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\settings_screen.dart:511:41 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\settings_screen.dart:514:22 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\presentation\screens\settings_screen.dart:515:27 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\settings_screen.dart:516:19 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\settings_screen.dart:518:19 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\settings_screen.dart:519:28 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\settings_screen.dart:521:30 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\settings_screen.dart:568:66 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\settings_screen.dart:827:56 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\settings_screen.dart:881:56 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\settings_screen.dart:897:17 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\settings_screen.dart:940:64 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\settings_screen.dart:1044:30 - deprecated_member_use
+   info - Dangling library doc comment - lib\presentation\screens\voice_panic_screen.dart:1:1 - dangling_library_doc_comments
+warning - Unused import: 'dart:math' - lib\presentation\screens\voice_panic_screen.dart:7:8 - unused_import
+warning - Unused import: '../../../l10n/generated/app_localizations.dart' - lib\presentation\screens\voice_panic_screen.dart:16:8 - unused_import
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\voice_panic_screen.dart:125:36 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\voice_panic_screen.dart:155:35 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\voice_panic_screen.dart:195:35 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\voice_panic_screen.dart:202:37 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\voice_panic_screen.dart:217:35 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\voice_panic_screen.dart:254:55 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\voice_panic_screen.dart:281:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\voice_panic_screen.dart:328:34 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\voice_panic_screen.dart:358:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\voice_panic_screen.dart:388:61 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\voice_panic_screen.dart:391:39 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\voice_panic_screen.dart:445:29 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\voice_panic_screen.dart:458:37 - deprecated_member_use
+   info - Use 'const' for final variables initialized to a constant value - lib\presentation\screens\voice_panic_screen.dart:487:11 - prefer_const_declarations
+   info - Use 'const' for final variables initialized to a constant value - lib\presentation\screens\voice_panic_screen.dart:488:11 - prefer_const_declarations
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\voice_panic_screen.dart:498:35 - deprecated_member_use
+   info - Dangling library doc comment - lib\presentation\widgets\adaptive_breathing_exercise.dart:1:1 - dangling_library_doc_comments
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\adaptive_breathing_exercise.dart:187:45 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\adaptive_breathing_exercise.dart:224:49 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\adaptive_breathing_exercise.dart:235:46 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\adaptive_breathing_exercise.dart:236:46 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\adaptive_breathing_exercise.dart:251:49 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\adaptive_breathing_exercise.dart:267:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\adaptive_breathing_exercise.dart:304:64 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\adaptive_breathing_exercise.dart:350:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\adaptive_breathing_exercise.dart:357:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\adaptive_breathing_exercise.dart:454:52 - deprecated_member_use
+   info - Dangling library doc comment - lib\presentation\widgets\adaptive_grounding_exercise.dart:1:1 - dangling_library_doc_comments
+warning - Unused import: '../../panic/ux/panic_state_classifier.dart' - lib\presentation\widgets\adaptive_grounding_exercise.dart:15:8 - unused_import
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\adaptive_grounding_exercise.dart:148:45 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\adaptive_grounding_exercise.dart:169:48 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\adaptive_grounding_exercise.dart:188:39 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\adaptive_grounding_exercise.dart:240:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\adaptive_grounding_exercise.dart:301:64 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\adaptive_grounding_exercise.dart:350:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\adaptive_grounding_exercise.dart:358:50 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\adaptive_grounding_exercise.dart:427:52 - deprecated_member_use
+   info - Dangling library doc comment - lib\presentation\widgets\breathing_exercise.dart:1:1 - dangling_library_doc_comments
+warning - Unused import: '../../core/theme/app_theme.dart' - lib\presentation\widgets\breathing_exercise.dart:4:8 - unused_import
+   info - Use 'const' with the constructor to improve performance - lib\presentation\widgets\breathing_exercise.dart:45:17 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\breathing_exercise.dart:148:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\breathing_exercise.dart:159:38 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\breathing_exercise.dart:160:38 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\breathing_exercise.dart:169:45 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\breathing_exercise.dart:182:41 - deprecated_member_use
+   info - Dangling library doc comment - lib\presentation\widgets\grounding_exercise.dart:1:1 - dangling_library_doc_comments
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\grounding_exercise.dart:82:39 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\grounding_exercise.dart:101:31 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\grounding_exercise.dart:149:43 - deprecated_member_use
+   info - Dangling library doc comment - lib\presentation\widgets\intensity_slider.dart:1:1 - dangling_library_doc_comments
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\intensity_slider.dart:25:24 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\intensity_slider.dart:43:32 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\intensity_slider.dart:60:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\intensity_slider.dart:62:35 - deprecated_member_use
+   info - Dangling library doc comment - test\offline_fallback_test.dart:1:1 - dangling_library_doc_comments
+   info - Dangling library doc comment - test\panic_entry_router_test.dart:1:1 - dangling_library_doc_comments
+   info - Dangling library doc comment - test\panic_state_classifier_test.dart:1:1 - dangling_library_doc_comments
+
+flutter : 277 issues found. (ran in 20.8s)
+At line:1 char:1
++ flutter analyze 2>&1 | Out-File -FilePath 
+C:\Users\hsana\hope\hope_mo ...
++ ~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ( 
+   277 issues found. (ran in 20.8s):String)   
+  [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandEr 
+   ror
+ 

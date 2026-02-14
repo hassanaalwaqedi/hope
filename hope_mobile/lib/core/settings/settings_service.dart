@@ -9,8 +9,13 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 
+import '../config/app_config.dart';
+
 /// All user settings stored locally and synced to backend
 class UserSettings {
+  // Locale
+  final String? languageCode; // 'en', 'fr', 'ar', etc.
+
   // Panic Mode
   final bool voiceGuidance;
   final bool hapticFeedback;
@@ -33,6 +38,7 @@ class UserSettings {
   final DateTime lastUpdated;
   
   const UserSettings({
+    this.languageCode,
     this.voiceGuidance = false,
     this.hapticFeedback = true,
     this.breathingSpeed = 'normal',
@@ -47,6 +53,7 @@ class UserSettings {
   });
   
   UserSettings copyWith({
+    String? languageCode,
     bool? voiceGuidance,
     bool? hapticFeedback,
     String? breathingSpeed,
@@ -60,6 +67,7 @@ class UserSettings {
     DateTime? lastUpdated,
   }) {
     return UserSettings(
+      languageCode: languageCode ?? this.languageCode,
       voiceGuidance: voiceGuidance ?? this.voiceGuidance,
       hapticFeedback: hapticFeedback ?? this.hapticFeedback,
       breathingSpeed: breathingSpeed ?? this.breathingSpeed,
@@ -75,6 +83,7 @@ class UserSettings {
   }
   
   Map<String, dynamic> toJson() => {
+    'language_code': languageCode,
     'voice_guidance': voiceGuidance,
     'haptic_feedback': hapticFeedback,
     'breathing_speed': breathingSpeed,
@@ -90,6 +99,7 @@ class UserSettings {
   
   factory UserSettings.fromJson(Map<String, dynamic> json) {
     return UserSettings(
+      languageCode: json['language_code'],
       voiceGuidance: json['voice_guidance'] ?? false,
       hapticFeedback: json['haptic_feedback'] ?? true,
       breathingSpeed: json['breathing_speed'] ?? 'normal',
@@ -131,11 +141,8 @@ enum ThemePreference {
 class SettingsService {
   static const _storageKey = 'hope_user_settings';
   
-  // Production Azure backend
-  static const _backendUrl = 'https://hope-api-b3bxa3htdsd3guhc.swedencentral-01.azurewebsites.net';
-  
-  // For local development, uncomment this:
-  // static const _backendUrl = 'http://10.0.2.2:8000';
+  // Backend URL - uses centralized AppConfig
+  static String get _backendUrl => AppConfig.apiBaseUrl;
   
   SharedPreferences? _prefs;
   UserSettings _settings = UserSettings.defaults();
@@ -172,6 +179,11 @@ class SettingsService {
   }
   
   // Individual setting updates with persistence
+  
+  Future<void> setLanguageCode(String? value) async {
+    _settings = _settings.copyWith(languageCode: value);
+    await _save();
+  }
   
   Future<void> setVoiceGuidance(bool value) async {
     _settings = _settings.copyWith(voiceGuidance: value);

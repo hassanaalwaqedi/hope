@@ -70,14 +70,19 @@ class _HopeAppState extends State<HopeApp> {
   @override
   void initState() {
     super.initState();
-    // Load initial theme from settings
+    // Load initial settings
     _themeMode = _getThemeModeFromSettings();
+    _locale = _getLocaleFromSettings();
     
     // Listen for settings changes
     settingsService.addListener((settings) {
       if (mounted) {
         setState(() {
           _themeMode = _getThemeModeFromSettings();
+          final newLocale = _getLocaleFromSettings();
+          if (newLocale != _locale) {
+            _locale = newLocale;
+          }
         });
       }
     });
@@ -93,17 +98,28 @@ class _HopeAppState extends State<HopeApp> {
         return ThemeMode.system;
     }
   }
+
+  Locale? _getLocaleFromSettings() {
+    final code = settingsService.settings.languageCode;
+    if (code != null) {
+      return Locale(code);
+    }
+    return null; // System default
+  }
   
   void setLocale(Locale locale) {
     setState(() {
       _locale = locale;
     });
+    // Also save to settings
+    settingsService.setLanguageCode(locale.languageCode);
   }
   
   void setThemeMode(ThemeMode mode) {
     setState(() {
       _themeMode = mode;
     });
+    // Save is handled by SettingsBloc/Service elsewhere but we could do it here too if needed
   }
 
   @override
@@ -141,6 +157,8 @@ class _HopeAppState extends State<HopeApp> {
           Locale('ar'), // Arabic (RTL)
           Locale('de'), // German
           Locale('es'), // Spanish
+          Locale('it'), // Italian
+          Locale('ko'), // Korean
         ],
         
         home: const MainNavigation(),

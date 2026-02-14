@@ -10,6 +10,7 @@
 /// - Professional appearance
 
 import 'package:flutter/material.dart';
+import '../../l10n/generated/app_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:share_plus/share_plus.dart';
@@ -60,7 +61,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         if (state.deletionComplete) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: const Text('All data has been deleted'),
+              content: Text(AppLocalizations.of(context)!.done),
               backgroundColor: HopeColors.success,
               behavior: SnackBarBehavior.floating,
               shape: RoundedRectangleBorder(
@@ -82,6 +83,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       },
       builder: (context, state) {
         final settings = state.settings;
+        final l10n = AppLocalizations.of(context)!;
         final isLoading = state.status == SettingsStatus.saving ||
                          state.status == SettingsStatus.exporting ||
                          state.status == SettingsStatus.deleting;
@@ -89,7 +91,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         return Scaffold(
           backgroundColor: isDark ? HopeColors.charcoal : HopeColors.cream,
           appBar: AppBar(
-            title: const Text('Réglages'),
+            title: Text(l10n.settingsTitle),
             centerTitle: true,
             actions: [
               if (isLoading)
@@ -116,33 +118,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
               
               // Panic settings
               _SettingsSection(
-                title: 'Mode Panique',
+                title: l10n.settingsPanicMode,
                 iconWidget: HopeIcons.butterfly(size: 18),
                 isDark: isDark,
                 children: [
                   _SwitchTile(
-                    title: 'Guidance Vocale',
-                    subtitle: 'Instructions parlées pendant les exercices',
+                    title: l10n.settingsVoiceGuidance,
+                    subtitle: l10n.settingsVoiceGuidanceSubtitle,
                     icon: Icons.volume_up_rounded,
                     value: settings.voiceGuidance,
                     onChanged: (v) => context.read<SettingsBloc>().add(VoiceGuidanceToggled(v)),
                     isDark: isDark,
                   ),
                   _SwitchTile(
-                    title: 'Retour Haptique',
-                    subtitle: 'Vibrations pendant les exercices',
+                    title: l10n.settingsHaptic,
+                    subtitle: l10n.settingsHapticSubtitle,
                     icon: Icons.vibration_rounded,
                     value: settings.hapticFeedback,
                     onChanged: (v) => context.read<SettingsBloc>().add(HapticFeedbackToggled(v)),
                     isDark: isDark,
                   ),
                   _DropdownTile(
-                    title: 'Vitesse de Respiration',
-                    subtitle: 'Ajuster le rythme des exercices',
+                    title: l10n.settingsBreathingSpeed,
+                    subtitle: l10n.settingsBreathingSpeedSubtitle,
                     icon: Icons.speed_rounded,
                     value: settings.breathingSpeed,
                     options: const ['slow', 'normal', 'fast'],
-                    displayNames: const {'slow': 'Lent', 'normal': 'Normal', 'fast': 'Rapide'},
+                    displayNames: {'slow': l10n.settingsSpeedSlow, 'normal': l10n.settingsSpeedNormal, 'fast': l10n.settingsSpeedFast},
                     onChanged: (v) => context.read<SettingsBloc>().add(BreathingSpeedChanged(v!)),
                     isDark: isDark,
                   ),
@@ -153,13 +155,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
               
               // Notifications
               _SettingsSection(
-                title: 'Notifications',
+                title: l10n.settingsNotifications,
                 icon: Icons.notifications_rounded,
                 isDark: isDark,
                 children: [
                   _SwitchTile(
-                    title: 'Check-in Quotidien',
-                    subtitle: 'Rappel bienveillant pour prendre soin de toi',
+                    title: l10n.settingsDailyCheckIn,
+                    subtitle: l10n.settingsDailyCheckInSubtitle,
                     icon: Icons.calendar_today_rounded,
                     value: settings.dailyCheckIn,
                     onChanged: (v) => context.read<SettingsBloc>().add(DailyCheckInToggled(v)),
@@ -172,7 +174,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               
               // Appearance
               _SettingsSection(
-                title: 'Apparence',
+                title: l10n.settingsAppearance,
                 icon: Icons.palette_rounded,
                 isDark: isDark,
                 children: [
@@ -193,23 +195,55 @@ class _SettingsScreenState extends State<SettingsScreen> {
               
               const SizedBox(height: HopeSpacing.md),
               
+              // Language
+              _SettingsSection(
+                title: l10n.settingsLanguage,
+                icon: Icons.translate_rounded,
+                isDark: isDark,
+                children: [
+                  _DropdownTile(
+                    title: l10n.settingsLanguage,
+                    subtitle: l10n.settingsLanguage,
+                    icon: Icons.language_rounded,
+                    value: settingsService.settings.languageCode ?? 'en',
+                    options: const ['en', 'fr', 'ar', 'de', 'it', 'ko'],
+                    displayNames: const {
+                      'en': '🇬🇧 English',
+                      'fr': '🇫🇷 Français',
+                      'ar': '🇸🇦 العربية',
+                      'de': '🇩🇪 Deutsch',
+                      'it': '🇮🇹 Italiano',
+                      'ko': '🇰🇷 한국어',
+                    },
+                    onChanged: (v) {
+                      if (v != null) {
+                        HopeApp.setLocale(context, Locale(v));
+                      }
+                    },
+                    isDark: isDark,
+                  ),
+                ],
+              ),
+              
+              const SizedBox(height: HopeSpacing.md),
+              
               // Data & Privacy
               _SettingsSection(
-                title: 'Données & Confidentialité',
+                title: l10n.settingsDataPrivacy,
                 icon: Icons.shield_rounded,
                 isDark: isDark,
                 children: [
                   _ActionTile(
-                    title: 'Exporter les Données',
-                    subtitle: 'Télécharger ton historique',
+                    title: l10n.settingsExportData,
+                    subtitle: l10n.settingsExportDataSubtitle,
                     icon: Icons.download_rounded,
                     onTap: () => _showExportConfirmDialog(context, isDark),
                     isLoading: state.status == SettingsStatus.exporting,
                     isDark: isDark,
                   ),
                   _ActionTile(
-                    title: 'Effacer l\'Historique',
-                    subtitle: 'Supprimer toutes les données',
+                    title: l10n.settingsClearData,
+                    subtitle: l10n.settingsClearDataSubtitle,
                     icon: Icons.delete_outline_rounded,
                     onTap: () => _showClearDataDialog(context, isDark),
                     isDestructive: true,
@@ -217,7 +251,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     isDark: isDark,
                   ),
                   _ActionTile(
-                    title: 'Politique de Confidentialité',
+                    title: l10n.settingsPrivacyPolicy,
                     subtitle: 'Version ${LegalDocuments.privacyPolicyVersion}',
                     icon: Icons.privacy_tip_rounded,
                     onTap: () => _showLegalDocument(context, LegalDocuments.privacyPolicy, isDark),
@@ -230,12 +264,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
               
               // About
               _SettingsSection(
-                title: 'À Propos',
+                title: l10n.settingsAbout,
                 icon: Icons.info_rounded,
                 isDark: isDark,
                 children: [
                   _ActionTile(
-                    title: 'À Propos de HOPE',
+                    title: l10n.settingsAboutApp,
                     subtitle: _packageInfo != null 
                         ? 'Version ${_packageInfo!.version} (${_packageInfo!.buildNumber})'
                         : 'Version 1.0.0',
@@ -244,15 +278,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     isDark: isDark,
                   ),
                   _ActionTile(
-                    title: 'Conditions d\'Utilisation',
+                    title: l10n.settingsTerms,
                     subtitle: 'Version ${LegalDocuments.termsVersion}',
                     icon: Icons.description_rounded,
                     onTap: () => _showLegalDocument(context, LegalDocuments.termsOfService, isDark),
                     isDark: isDark,
                   ),
                   _ActionTile(
-                    title: 'Envoyer un Feedback',
-                    subtitle: 'Aide-nous à améliorer HOPE',
+                    title: l10n.settingsFeedback,
+                    subtitle: l10n.settingsFeedbackSubtitle,
                     icon: Icons.feedback_rounded,
                     onTap: () => _showFeedbackDialog(context, isDark),
                     isDark: isDark,
@@ -304,14 +338,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Bienvenue',
+                  AppLocalizations.of(context)!.settingsWelcome,
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'Utilisateur Anonyme',
+                  AppLocalizations.of(context)!.settingsAnonymous,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
@@ -324,11 +358,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             child: IconButton(
               icon: const Icon(Icons.login_rounded),
-              tooltip: 'Se Connecter',
+              tooltip: AppLocalizations.of(context)!.settingsLoginSoon,
               onPressed: () {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: const Text('Connexion bientôt disponible'),
+                    content: Text(AppLocalizations.of(context)!.settingsLoginSoon),
                     behavior: SnackBarBehavior.floating,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(HopeSpacing.radiusMd),
@@ -358,8 +392,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Icon(Icons.smart_toy_rounded, color: HopeColors.amber, size: 24),
           const SizedBox(height: HopeSpacing.sm),
           Text(
-            'HOPE est un assistant IA, pas un remplacement pour les soins professionnels. '
-            'En cas de crise, contacte les services d\'urgence ou un professionnel de santé mentale.',
+            AppLocalizations.of(context)!.aiOnlyDisclaimer,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
               color: isDark ? HopeColors.moonlightDim : HopeColors.slateLight,
@@ -378,7 +411,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(HopeSpacing.radiusXl),
         ),
-        title: const Text('Exporter tes Données'),
+        title: Text(AppLocalizations.of(context)!.settingsExportConfirm),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -398,14 +431,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Annuler'),
+            child: Text(AppLocalizations.of(context)!.settingsCancel),
           ),
           FilledButton(
             onPressed: () {
               Navigator.pop(context);
               context.read<SettingsBloc>().add(const DataExportRequested());
             },
-            child: const Text('Exporter'),
+            child: Text(AppLocalizations.of(context)!.settingsExportAction),
           ),
         ],
       ),
@@ -442,11 +475,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
           borderRadius: BorderRadius.circular(HopeSpacing.radiusXl),
         ),
         icon: Icon(Icons.check_circle_rounded, color: HopeColors.success, size: 48),
-        title: const Text('Export Terminé'),
+        title: Text(AppLocalizations.of(context)!.done),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('Tes données ont été exportées.'),
+            Text(AppLocalizations.of(context)!.settingsExportDataSubtitle),
             const SizedBox(height: HopeSpacing.md),
             Container(
               padding: const EdgeInsets.all(HopeSpacing.sm),
@@ -466,7 +499,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Fermer'),
+            child: Text(AppLocalizations.of(context)!.done),
           ),
           FilledButton.icon(
             onPressed: () {
@@ -490,7 +523,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           borderRadius: BorderRadius.circular(HopeSpacing.radiusXl),
         ),
         icon: Icon(Icons.warning_rounded, color: HopeColors.coral, size: 48),
-        title: const Text('Supprimer Toutes les Données?'),
+        title: Text(AppLocalizations.of(context)!.settingsClearConfirm),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -517,7 +550,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   const SizedBox(width: HopeSpacing.sm),
                   Expanded(
                     child: Text(
-                      'Cette action est IRRÉVERSIBLE.',
+                      AppLocalizations.of(context)!.settingsIrreversible,
                       style: TextStyle(
                         color: HopeColors.coral,
                         fontWeight: FontWeight.w600,
@@ -533,7 +566,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Annuler'),
+            child: Text(AppLocalizations.of(context)!.settingsCancel),
           ),
           FilledButton(
             style: FilledButton.styleFrom(backgroundColor: HopeColors.coral),
@@ -541,7 +574,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Navigator.pop(context);
               context.read<SettingsBloc>().add(const DataDeletionRequested());
             },
-            child: const Text('Supprimer'),
+            child: Text(AppLocalizations.of(context)!.settingsDeleteAction),
           ),
         ],
       ),
@@ -617,7 +650,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                       );
                     },
-                    child: const Text('J\'accepte'),
+                    child: Text(AppLocalizations.of(context)!.consentContinue),
                   ),
                 ),
                 const SizedBox(height: HopeSpacing.lg),
@@ -643,7 +676,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         child: HopeIcons.butterfly(size: 24, color: Colors.white),
       ),
-      applicationLegalese: '© 2026 HOPE Team. Tous droits réservés.',
+      applicationLegalese: '© 2026 HOPE Team.',
       children: [
         const SizedBox(height: HopeSpacing.md),
         const Text(
@@ -685,7 +718,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(HopeSpacing.radiusXl),
         ),
-        title: const Text('Envoyer un Feedback'),
+        title: Text(AppLocalizations.of(context)!.settingsFeedback),
         content: TextField(
           controller: controller,
           maxLines: 4,
@@ -702,14 +735,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Annuler'),
+            child: Text(AppLocalizations.of(context)!.settingsCancel),
           ),
           FilledButton(
             onPressed: () {
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: const Text('Merci pour ton feedback!'),
+                  content: Text(AppLocalizations.of(context)!.settingsFeedbackSuccess),
                   behavior: SnackBarBehavior.floating,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(HopeSpacing.radiusMd),
@@ -717,7 +750,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               );
             },
-            child: const Text('Envoyer'),
+            child: Text(AppLocalizations.of(context)!.chatSendButton),
           ),
         ],
       ),
@@ -953,8 +986,8 @@ class _ThemeTile extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Thème', style: Theme.of(context).textTheme.titleSmall),
-                    Text('Choisir l\'apparence', style: Theme.of(context).textTheme.bodySmall),
+                    Text(AppLocalizations.of(context)!.settingsTheme, style: Theme.of(context).textTheme.titleSmall),
+                    Text(AppLocalizations.of(context)!.settingsAppearance, style: Theme.of(context).textTheme.bodySmall),
                   ],
                 ),
               ),
@@ -962,21 +995,21 @@ class _ThemeTile extends StatelessWidget {
           ),
           const SizedBox(height: HopeSpacing.md),
           SegmentedButton<ThemePreference>(
-            segments: const [
+            segments: [
               ButtonSegment(
                 value: ThemePreference.system,
                 icon: Icon(Icons.brightness_auto_rounded, size: 18),
-                label: Text('Auto'),
+                label: Text(AppLocalizations.of(context)!.settingsThemeSystem),
               ),
               ButtonSegment(
                 value: ThemePreference.light,
                 icon: Icon(Icons.light_mode_rounded, size: 18),
-                label: Text('Clair'),
+                label: Text(AppLocalizations.of(context)!.settingsThemeLight),
               ),
               ButtonSegment(
                 value: ThemePreference.dark,
                 icon: Icon(Icons.dark_mode_rounded, size: 18),
-                label: Text('Sombre'),
+                label: Text(AppLocalizations.of(context)!.settingsThemeDark),
               ),
             ],
             selected: {preference},

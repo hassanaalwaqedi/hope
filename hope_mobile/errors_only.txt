@@ -1,0 +1,12 @@
+﻿
+   info - 'cancelOnError' is deprecated and 
+shouldn't be used. Use 
+SpeechListenOptions.cancelOnError instead - 
+lib\core\voice\voice_stt_service.dart:203:9 - 
+deprecated_member_use
+  error - The named parameter 'l10n' is 
+required, but there's no corresponding 
+argument - lib\presentation\screens\home_scree
+n.dart:81:29 - missing_required_argument
+
+

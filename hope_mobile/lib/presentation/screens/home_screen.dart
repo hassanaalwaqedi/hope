@@ -18,6 +18,7 @@ import '../../panic/panic_state.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/theme/hope_icons.dart';
 import 'panic_active_screen.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -25,6 +26,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!;
     
     return BlocListener<PanicBloc, PanicSessionState>(
       listener: (context, state) {
@@ -71,22 +73,22 @@ class HomeScreen extends StatelessWidget {
                       const Spacer(flex: 1),
                       
                       // Welcoming header
-                      _buildHeader(context),
+                      _buildHeader(context, l10n),
                       
                       const Spacer(flex: 2),
                       
                       // Main panic button - breathing animation
-                      const HopeButton(),
+                      HopeButton(l10n: l10n),
                       
                       const Spacer(flex: 2),
                       
                       // Supportive message
-                      _buildSupportMessage(context, isDark),
+                      _buildSupportMessage(context, isDark, l10n),
                       
                       const SizedBox(height: HopeSpacing.xl),
                       
                       // Quick resources bar
-                      _buildQuickResources(context, isDark),
+                      _buildQuickResources(context, isDark, l10n),
                       
                       const SizedBox(height: HopeSpacing.md),
                     ],
@@ -150,11 +152,11 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
+  Widget _buildHeader(BuildContext context, AppLocalizations l10n) {
     return Column(
       children: [
         Text(
-          'HOPE',
+          l10n.appTitle,
           style: Theme.of(context).textTheme.displayMedium?.copyWith(
                 fontWeight: FontWeight.w700,
                 letterSpacing: 6,
@@ -163,7 +165,7 @@ class HomeScreen extends StatelessWidget {
         ),
         const SizedBox(height: HopeSpacing.sm),
         Text(
-          'Je suis là pour toi',
+          l10n.homeSubtitle,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
                 fontWeight: FontWeight.w400,
@@ -173,7 +175,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSupportMessage(BuildContext context, bool isDark) {
+  Widget _buildSupportMessage(BuildContext context, bool isDark, AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: HopeSpacing.lg,
@@ -189,7 +191,7 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       child: Text(
-        'Prends ton temps. Tu n\'as rien à prouver.',
+        l10n.homeSupportMessage,
         textAlign: TextAlign.center,
         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
               fontStyle: FontStyle.italic,
@@ -199,7 +201,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildQuickResources(BuildContext context, bool isDark) {
+  Widget _buildQuickResources(BuildContext context, bool isDark, AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(HopeSpacing.md),
       decoration: BoxDecoration(
@@ -212,7 +214,7 @@ class HomeScreen extends StatelessWidget {
         children: [
           _QuickActionButton(
             icon: Icons.air_rounded,
-            label: 'Respirer',
+            label: l10n.quickActionBreathe,
             onTap: () {
               HapticFeedback.lightImpact();
               context.read<PanicBloc>().add(const PanicTriggered());
@@ -221,7 +223,7 @@ class HomeScreen extends StatelessWidget {
           _QuickActionDivider(isDark: isDark),
           _QuickActionButton(
             icon: Icons.visibility_rounded,
-            label: 'Ancrage',
+            label: l10n.quickActionGrounding,
             onTap: () {
               HapticFeedback.lightImpact();
               context.read<PanicBloc>().add(const PanicTriggered());
@@ -230,21 +232,21 @@ class HomeScreen extends StatelessWidget {
           _QuickActionDivider(isDark: isDark),
           _QuickActionButton(
             icon: Icons.phone_rounded,
-            label: '3114',
+            label: l10n.quickActionCrisisNumber,
             isEmergency: true,
-            onTap: () => _showCrisisResources(context),
+            onTap: () => _showCrisisResources(context, l10n),
           ),
         ],
       ),
     );
   }
 
-  void _showCrisisResources(BuildContext context) {
+  void _showCrisisResources(BuildContext context, AppLocalizations l10n) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (_) => _CrisisResourcesSheet(),
+      builder: (_) => _CrisisResourcesSheet(l10n: l10n),
     );
   }
 }
@@ -254,7 +256,8 @@ class HomeScreen extends StatelessWidget {
 // ============================================================================
 
 class HopeButton extends StatefulWidget {
-  const HopeButton({super.key});
+  final AppLocalizations l10n;
+  const HopeButton({super.key, required this.l10n});
 
   @override
   State<HopeButton> createState() => _HopeButtonState();
@@ -270,26 +273,26 @@ class _HopeButtonState extends State<HopeButton>
   @override
   void initState() {
     super.initState();
-    
+
     // Breathing animation - slow, calming
     _breatheController = AnimationController(
       duration: HopeAnimations.breathe,
       vsync: this,
     )..repeat(reverse: true);
-    
+
     _breatheAnimation = Tween<double>(begin: 1.0, end: 1.05).animate(
       CurvedAnimation(
         parent: _breatheController,
         curve: Curves.easeInOutSine,
       ),
     );
-    
+
     // Glow animation - subtle pulse
     _glowController = AnimationController(
       duration: const Duration(milliseconds: 2000),
       vsync: this,
     )..repeat(reverse: true);
-    
+
     _glowAnimation = Tween<double>(begin: 0.3, end: 0.6).animate(
       CurvedAnimation(
         parent: _glowController,
@@ -309,7 +312,7 @@ class _HopeButtonState extends State<HopeButton>
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final primaryColor = isDark ? HopeColors.nightSage : HopeColors.sage;
-    
+
     return AnimatedBuilder(
       animation: Listenable.merge([_breatheAnimation, _glowAnimation]),
       builder: (context, child) {
@@ -359,7 +362,7 @@ class _HopeButtonState extends State<HopeButton>
                     const SizedBox(height: HopeSpacing.sm),
                     // Main text
                     Text(
-                      'J\'ai besoin\nd\'aide',
+                      widget.l10n.panicButtonText,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: HopeTypography.fontFamily,
@@ -459,6 +462,10 @@ class _QuickActionDivider extends StatelessWidget {
 // ============================================================================
 
 class _CrisisResourcesSheet extends StatelessWidget {
+  final AppLocalizations l10n;
+
+  const _CrisisResourcesSheet({required this.l10n});
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -489,41 +496,41 @@ class _CrisisResourcesSheet extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: HopeSpacing.lg),
-              
+
               // Title
               Text(
-                'Numéros d\'Urgence',
+                l10n.crisisTitle,
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
               const SizedBox(height: HopeSpacing.xs),
               Text(
-                'Tu n\'es pas seul(e). De l\'aide est disponible.',
+                l10n.crisisSubtitle,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(height: HopeSpacing.lg),
-              
+
               // Emergency contacts
               _CrisisResourceTile(
-                title: 'Prévention du Suicide',
+                title: l10n.crisisSuicidePreventionTitle,
                 phone: '3114',
-                description: 'Écoute professionnelle 24h/24',
+                description: l10n.crisisSuicidePreventionDescription,
                 isPrimary: true,
               ),
               const SizedBox(height: HopeSpacing.md),
               _CrisisResourceTile(
-                title: 'Urgences Européennes',
+                title: l10n.crisisEuropeanEmergencyTitle,
                 phone: '112',
-                description: 'Tous services d\'urgence',
+                description: l10n.crisisEuropeanEmergencyDescription,
               ),
               const SizedBox(height: HopeSpacing.md),
               _CrisisResourceTile(
-                title: 'SOS Amitié',
+                title: l10n.crisisSOSFriendshipTitle,
                 phone: '09 72 39 40 50',
-                description: 'Écoute bienveillante 24h/24',
+                description: l10n.crisisSOSFriendshipDescription,
               ),
-              
+
               const SizedBox(height: HopeSpacing.xl),
-              
+
               // Safety message
               Container(
                 padding: const EdgeInsets.all(HopeSpacing.md),
@@ -546,7 +553,7 @@ class _CrisisResourcesSheet extends StatelessWidget {
                     const SizedBox(width: HopeSpacing.sm),
                     Expanded(
                       child: Text(
-                        'En danger immédiat? Appelle le 15 (SAMU) ou 112',
+                        l10n.crisisEmergencyDisclaimer,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                               color: isDark
                                   ? HopeColors.coralLight
